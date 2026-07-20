@@ -1,0 +1,151 @@
+# Design System & UI Guidelines
+
+Цей документ фіксує єдину візуальну мову для всього проекту PLM / FSM на базі Vanilla CSS (CSS Modules) та CSS-змінних.
+
+## 1. Палітра (Palette)
+
+Використовуємо CSS-змінні для швидкого перемикання між світлою та темною темами (через атрибут `data-theme="dark"` на `<html>` або `<body>`).
+
+### Світла тема (Default)
+:root {
+  /* Основні кольори */
+  --bg-main: #f8fafc;        /* Світло-сірий фон сторінки */
+  --bg-surface: #ffffff;     /* Білий фон карток/панелей */
+  
+  /* Текст */
+  --text-primary: #0f172a;   /* Темний слейт */
+  --text-secondary: #64748b; /* Приглушений текст */
+  
+  /* Акценти */
+  --accent-primary: #3b82f6;   /* Синій (Action) */
+  --accent-hover: #2563eb;     /* Ховер синього */
+  --accent-success: #10b981;   /* Зелений (Оплата, Успіх) */
+  --accent-warning: #f59e0b;   /* Помаранчевий (Пауза) */
+  --accent-danger: #ef4444;    /* Червоний (Помилка, Видалити) */
+  --accent-incomplete: #8b5cf6; /* Фіолетовий (Чорновик, Неповна інформація) */
+  
+  /* Бордери та дрібниці */
+  --border-color: #e2e8f0;
+}
+
+### Темна тема
+:root[data-theme="dark"] {
+  --bg-main: #0f172a;
+  --bg-surface: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-primary: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-success: #10b981;
+  --accent-warning: #fbbf24;
+  --accent-danger: #f87171;
+  --accent-incomplete: #a78bfa;
+  --border-color: #334155;
+}
+
+## 2. Типографіка (Typography)
+- **Шрифт:** System-UI (Roboto, Inter, San Francisco) як основний.
+- **Розміри (Ієрархія):**
+  - `h1`: 24px (Сторінка / Великий заголовок)
+  - `h2`: 20px (Заголовок картки)
+  - `h3`: 16px (Заголовок секції всередині картки)
+  - `body`: 14px (Основний текст, таблиці)
+  - `small`: 12px (Допоміжний текст, підказки, лейбли інпутів)
+- **Ваги (Weights):**
+  - `400`: Звичайний текст
+  - `500`: Medium (кнопки, заголовки стовпців таблиць)
+  - `600`: Semi-bold (заголовки h1-h3)
+
+## 3. Система відступів (Spacing)
+Всі відступи кратні `4px` або `8px`.
+- `--space-4`: 4px
+- `--space-8`: 8px
+- `--space-12`: 12px
+- `--space-16`: 16px
+- `--space-24`: 24px
+- `--space-32`: 32px
+
+## 4. Радіуси (Border Radius)
+- `--radius-sm: 4px;` (Чекбокси, маленькі бейджі)
+- `--radius-md: 8px;` (Кнопки, інпути, dropdown-меню)
+- `--radius-lg: 12px;` (Великі картки, модальні вікна)
+
+## 5. Тіні (Shadows)
+- `--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);` (Для інпутів, кнопок)
+- `--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);` (Для карток)
+- `--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15);` (Для модальних вікон, dropdown)
+
+## 6. Компоненти (Components)
+
+### Кнопки (Buttons)
+- **Primary:** `background: var(--accent-primary)`, `color: white`. Hover: `--accent-hover`.
+- **Secondary:** `background: transparent`, `border: 1px solid var(--border-color)`, `color: var(--text-primary)`. Hover: `background: var(--bg-main)`.
+- **Danger:** `background: var(--accent-danger)`, `color: white`.
+- **Ghost:** `background: transparent`, `border: none`. Hover: `background: var(--bg-main)`.
+- **Розміри:**
+  - `sm`: padding 4px 8px, font 12px
+  - `md`: padding 8px 16px, font 14px (default)
+  - `lg`: padding 12px 24px, font 16px
+- **Стани:** `disabled` (opacity 0.5, cursor: not-allowed), `loading` (іконка спінера, текст залишається).
+
+### Інпути й Селекти (Inputs & Selects)
+- Висота: 36px (для `md`).
+- Паддінг: `8px 12px`.
+- Бордер: `1px solid var(--border-color)`. Радіус: `--radius-md`.
+- **Focus:** Зміна кольору бордера на `--accent-primary` + тінь (box-shadow).
+
+### Картки (Surface / Cards)
+- Фон: `var(--bg-surface)`.
+- Бордер: `1px solid var(--border-color)`.
+- Тінь: `--shadow-md`.
+- Паддінг: `--space-16` або `--space-24`.
+- Радіус: `--radius-lg`.
+
+### Бокова панель (Drawer / Sidebar)
+- Ширина: 340px (фіксована для навігації/фільтрів) або гнучка 400px+ для панелей редагування.
+- Оверлей: `rgba(0, 0, 0, 0.4)` (backdrop-filter дозволено, якщо це не поверх інтенсивних робочих зон).
+- Анімація: `transform: translateX(100%)` -> `translateX(0)` (тривалість 0.2s-0.3s ease-in-out).
+
+### Модальне вікно (Modal / Dialog)
+- Ширина за замовчуванням: 400px (sm), 600px (md).
+- Паддінг: `--space-24`.
+- Backdrop (затемнення фону): `rgba(0, 0, 0, 0.5)`.
+
+### Таблиці (Table)
+- Висота рядка (row): `48px`.
+- Ховер рядка: `background-color: var(--bg-main)`.
+- Зебра (striped): `nth-child(even)` з кольором `var(--bg-main)` (опціонально для великих даних).
+- Заголовок (th): `font-weight: 500`, `color: var(--text-secondary)`, `border-bottom: 2px solid var(--border-color)`.
+
+### Бейджі (Badges)
+- **Готово (Success):** Фон напівпрозорий зелений (`rgba`), текст `--accent-success`.
+- **Проблема (Danger):** Фон напівпрозорий червоний, текст `--accent-danger`.
+- **Пауза (Warning):** Фон напівпрозорий помаранчевий, текст `--accent-warning`.
+- **Неповна / Чорновик (Incomplete):** Фон напівпрозорий фіолетовий, текст `--accent-incomplete`.
+- Радіус: `--radius-sm`. Паддінг: `2px 6px`. Розмір шрифту: 12px, font-weight 600.
+
+### Тости / Сповіщення (Toast)
+- Позиція: `bottom-right` або `top-right`.
+- Тривалість: 3000ms.
+- Стилі: темний фон або з бічним кольоровим акцентом зліва (зелений для успіху, червоний для помилки).
+
+### Фокус (Focus State - Клавіатурна навігація)
+- Всі інтерактивні елементи (кнопки, посилання) повинні мати:
+  `&:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }`
+- Це життєво необхідно для доступності та правильної роботи Radix UI.
+
+## 7. Іконки (Icon System)
+- **Бібліотека:** `lucide-react` (стандартна для поточного стеку).
+- **Розміри за замовчуванням:**
+  - В кнопках та бейджах: `16px`.
+  - В заголовках та меню: `20px` або `24px`.
+- Вертикальне вирівнювання: `display: flex; align-items: center; gap: 8px;` для комбінацій текст+іконка.
+
+## 8. WOW vs Робочі зони (Ефекти)
+- **Login, Landing, Welcome-екрани (WOW зони):** Дозволені ефекти glassmorphism (`backdrop-filter: blur(20px)`), складні градієнти, м'які мікро-анімації та великі тіні для досягнення преміального вигляду.
+- **Списки, Канбан, Календар, Мапа (Робочі зони):** МАКСИМАЛЬНА ЧІТКІСТЬ І ШВИДКОДІЯ. Жодних `backdrop-filter` на списках, жодних відволікаючих градієнтів на фонах карток. Кольори повинні бути солідними, контраст високим. Робочі інтерфейси створюються для швидкості та ясності зчитування даних. Анімації допускаються лише для транзицій станів (hover, відкриття модалки, drag-and-drop).
+
+## 9. Контекстна релевантність даних (Context-Aware Cards)
+- В різних робочих столах (Desks) картки замовлення мають відображати різну, найбільш релевантну для даного контексту інформацію.
+- **Стіл планування замірів (Logistics/Measurement Desk):** Внизу картки замість дати створення (`created_at`) повинна виводитися дата продзвону (`planned_call_date`), оскільки це ключовий тригер для логіста. Якщо дата продзвону ще не задана, виводити відповідне повідомлення, але не підміняти її датою створення.
+- Для наступних столів (Конструкторський, Виробничий тощо) цей підхід має зберігатися: показуємо найважливіші дати та атрибути саме для поточного етапу.

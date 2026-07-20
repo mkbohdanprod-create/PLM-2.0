@@ -1,0 +1,5 @@
+{
+  "test_4_1_1": "Error: permission denied for table orders",
+  "test_4_1_2": "Success! (Wait, this should be a failure!)",
+  "test_4_2": "Error: Transition from MEASUREMENT_SCHEDULING to NON_EXISTENT_STATUS not allowed for role DISPATCHER"
+}

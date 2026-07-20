@@ -1,0 +1,2 @@
+UPDATE public.profiles SET color = '#ef4444' WHERE id = '00000000-0000-0000-0000-000000000005';
+UPDATE public.profiles SET color = '#10b981' WHERE id = '22222222-2222-2222-2222-222222222222';

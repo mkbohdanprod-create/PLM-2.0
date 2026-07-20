@@ -1,0 +1,3813 @@
+{
+  "regions": [
+    {
+      "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+      "name": "Захід"
+    },
+    {
+      "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+      "name": "Центр"
+    }
+  ],
+  "branches": [
+    {
+      "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "name": "Філія Львів",
+      "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+      "lat": null,
+      "lng": null
+    },
+    {
+      "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "name": "Філія Київ",
+      "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+      "lat": null,
+      "lng": null
+    }
+  ],
+  "profiles": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "full_name": "admin@example.com",
+      "role_code": "SUPER_ADMIN",
+      "branch_id": null,
+      "is_active": true,
+      "created_at": "2026-07-14T12:45:50.341Z",
+      "updated_at": "2026-07-14T12:45:50.341Z",
+      "allowed_view_regions": null,
+      "allowed_action_regions": null,
+      "color": "#3b82f6",
+      "base_lat": null,
+      "base_lng": null
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "full_name": "center@example.com",
+      "role_code": "REGION_MANAGER",
+      "branch_id": null,
+      "is_active": true,
+      "created_at": "2026-07-14T12:45:50.341Z",
+      "updated_at": "2026-07-14T12:45:50.341Z",
+      "allowed_view_regions": [
+        "67bb9a5b-a049-4a03-aaa8-93e09a86f032"
+      ],
+      "allowed_action_regions": [
+        "67bb9a5b-a049-4a03-aaa8-93e09a86f032"
+      ],
+      "color": "#3b82f6",
+      "base_lat": null,
+      "base_lng": null
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "full_name": "west@example.com",
+      "role_code": "REGION_MANAGER",
+      "branch_id": null,
+      "is_active": true,
+      "created_at": "2026-07-14T12:45:50.341Z",
+      "updated_at": "2026-07-14T12:45:50.341Z",
+      "allowed_view_regions": [
+        "6f3fcbb7-606e-4f93-be5a-ca74a16f2839"
+      ],
+      "allowed_action_regions": [
+        "6f3fcbb7-606e-4f93-be5a-ca74a16f2839"
+      ],
+      "color": "#3b82f6",
+      "base_lat": null,
+      "base_lng": null
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "full_name": "dispatcher@example.com",
+      "role_code": "DISPATCHER",
+      "branch_id": null,
+      "is_active": true,
+      "created_at": "2026-07-14T12:45:50.341Z",
+      "updated_at": "2026-07-14T12:45:50.341Z",
+      "allowed_view_regions": [
+        "67bb9a5b-a049-4a03-aaa8-93e09a86f032"
+      ],
+      "allowed_action_regions": [
+        "67bb9a5b-a049-4a03-aaa8-93e09a86f032"
+      ],
+      "color": "#3b82f6",
+      "base_lat": null,
+      "base_lng": null
+    },
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "full_name": "Олег Замірник (Львів)",
+      "role_code": "MEASURER",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "is_active": true,
+      "created_at": "2026-07-14T12:45:49.228Z",
+      "updated_at": "2026-07-14T12:45:49.228Z",
+      "allowed_view_regions": [
+        "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+      ],
+      "allowed_action_regions": [
+        "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+      ],
+      "color": "#3b82f6",
+      "base_lat": null,
+      "base_lng": null
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "full_name": "Антон Замірник (Київ)",
+      "role_code": "MEASURER",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "is_active": true,
+      "created_at": "2026-07-14T13:51:27.991Z",
+      "updated_at": "2026-07-14T13:51:27.991Z",
+      "allowed_view_regions": [
+        "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+      ],
+      "allowed_action_regions": [
+        "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+      ],
+      "color": "#ef4444",
+      "base_lat": null,
+      "base_lng": null
+    }
+  ],
+  "roles": [
+    {
+      "code": "REGION_MANAGER",
+      "name_ua": "Регіональний керівник",
+      "is_system": true,
+      "permissions": []
+    },
+    {
+      "code": "BRANCH_MANAGER",
+      "name_ua": "Керівник філії",
+      "is_system": true,
+      "permissions": []
+    },
+    {
+      "code": "DISPATCHER",
+      "name_ua": "Диспетчер",
+      "is_system": true,
+      "permissions": []
+    },
+    {
+      "code": "ENGINEER",
+      "name_ua": "Конструктор / Інженер",
+      "is_system": true,
+      "permissions": []
+    },
+    {
+      "code": "MEASURER",
+      "name_ua": "Замірник",
+      "is_system": true,
+      "permissions": []
+    },
+    {
+      "code": "INSTALLER",
+      "name_ua": "Монтажник",
+      "is_system": true,
+      "permissions": []
+    },
+    {
+      "code": "SUPER_ADMIN",
+      "name_ua": "Супер-адміністратор",
+      "is_system": true,
+      "permissions": [
+        "view_orders",
+        "edit_orders",
+        "schedule_measurements",
+        "view_logistics",
+        "edit_logistics",
+        "manage_users",
+        "manage_roles"
+      ]
+    }
+  ],
+  "engineering_tasks": [],
+  "worker_schedules": [
+    {
+      "id": "38884a06-5a22-46da-98bb-718ebb9be63f",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-13T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "6cbe7290-6524-4e52-9e9f-272e4a6acd27",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-14T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "7cf25acc-fbe0-4ae1-8424-f6886003485a",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-15T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "bcd23806-8862-4472-8f7a-6bef1bf53164",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-16T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "85e23622-5df3-4d86-b95f-26ef522cbbcf",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-17T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "DAY_OFF",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "ec7b9dd9-6d6f-4657-921f-ab478833a301",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-18T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "DAY_OFF",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "f781e72c-6e67-4b63-8a2e-5f061b7e9a60",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-19T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "eb3c79f6-eec6-4d03-90bc-7315b935044a",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-20T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "bb96ae8c-178a-4d76-bdee-77e42ea45264",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-21T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "5a2eccaf-d8ad-4d6c-a2fa-2844a0871464",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-22T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "295edc71-2a0f-4f94-88d9-4b4c43971603",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-23T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "1e59c0f0-d678-4ecd-9cb1-bcb652547cb6",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-24T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "DAY_OFF",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "c9940701-1442-410a-a979-c81cdc127764",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-25T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "DAY_OFF",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "0c390702-cedc-4417-9099-0cd781f873fb",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-26T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    },
+    {
+      "id": "8d72d8a7-80a7-426c-88d8-932ebec1789a",
+      "profile_id": "11111111-1111-1111-1111-111111111111",
+      "work_date": "2026-07-27T21:00:00.000Z",
+      "start_time": "09:00:00",
+      "end_time": "18:00:00",
+      "status": "WORKING",
+      "created_at": "2026-07-14T12:45:49.228Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+      "order_number": "ORD-2026-0002",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_COMPLETED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.144Z",
+      "updated_at": "2026-07-14T13:51:28.144Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "eaad1884-1e74-40d3-b06c-b3723c360bfd",
+          "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+          "city": "Київ",
+          "street": "вул. Саксаганського",
+          "building": "44",
+          "lat": "50.443064463120095",
+          "lng": "30.548221321438227",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "4108537f-9ef9-4686-a638-2f3ca82b1e03",
+          "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-11T21:00:00.000Z",
+          "start_time": "12:00:00",
+          "end_time": "13:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.156Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "fddaa9f2-2af6-4c39-93ba-272ba3d692b1",
+          "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+          "full_name": "Олена Олійник",
+          "phone": "+380202439484",
+          "phone_normalized": "380202439484",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "83778448-0c59-465c-a6c2-5087db08322b",
+      "order_number": "ORD-2026-0004",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.174Z",
+      "updated_at": "2026-07-14T13:51:28.174Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "ed2b86de-09ba-457a-afdb-42c8fd83a317",
+          "order_id": "83778448-0c59-465c-a6c2-5087db08322b",
+          "city": "Київ",
+          "street": "просп. Бажана",
+          "building": "35",
+          "lat": "50.40546724872299",
+          "lng": "30.535142272351216",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "49d248ca-9c35-428a-bcdd-be7dcd1459b2",
+          "order_id": "83778448-0c59-465c-a6c2-5087db08322b",
+          "full_name": "Андрій Коваленко",
+          "phone": "+380416708578",
+          "phone_normalized": "380416708578",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "ba5ecddc-b278-44b9-acd9-9ad5dc188234",
+      "order_number": "ORD-2026-0005",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.184Z",
+      "updated_at": "2026-07-14T13:51:28.184Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "d50f31f2-c76b-46b2-bf42-ea7c7284b2d6",
+          "order_id": "ba5ecddc-b278-44b9-acd9-9ad5dc188234",
+          "city": "Київ",
+          "street": "вул. Хрещатик",
+          "building": "33",
+          "lat": "50.40830956520464",
+          "lng": "30.55865495269665",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "e00ba742-b642-4c15-875f-17bccbc2977d",
+          "order_id": "ba5ecddc-b278-44b9-acd9-9ad5dc188234",
+          "full_name": "Анна Коваленко",
+          "phone": "+380927321464",
+          "phone_normalized": "380927321464",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "a2a58e77-d78c-4af7-9f2d-ed327b807cf4",
+      "order_number": "ORD-2026-0007",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.206Z",
+      "updated_at": "2026-07-14T13:51:28.206Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "48081943-00de-4702-8e93-2e86d6cae03f",
+          "order_id": "a2a58e77-d78c-4af7-9f2d-ed327b807cf4",
+          "city": "Львів",
+          "street": "вул. Стрийська",
+          "building": "81",
+          "lat": "49.84952566204757",
+          "lng": "24.043513729831872",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "265ad3cd-4dd7-4b51-8cb7-19b742ce3312",
+          "order_id": "a2a58e77-d78c-4af7-9f2d-ed327b807cf4",
+          "full_name": "Іван Мельник",
+          "phone": "+380960582345",
+          "phone_normalized": "380960582345",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+      "order_number": "ORD-2026-0008",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_COMPLETED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.216Z",
+      "updated_at": "2026-07-14T13:51:28.216Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "c4d9e0f1-17c6-4da1-8db6-685042b9fe19",
+          "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+          "city": "Київ",
+          "street": "просп. Оболонський",
+          "building": "46",
+          "lat": "50.47209122852384",
+          "lng": "30.502182737763803",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "ba6a3397-97d6-4884-8012-e79317f2b072",
+          "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-10T21:00:00.000Z",
+          "start_time": "11:00:00",
+          "end_time": "12:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.225Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "6c1e1411-0e50-44af-afbf-dbf1db773327",
+          "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+          "full_name": "Марія Кравченко",
+          "phone": "+380441738194",
+          "phone_normalized": "380441738194",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+      "order_number": "ORD-2026-0009",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_SCHEDULED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.228Z",
+      "updated_at": "2026-07-14T13:51:28.228Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "5acff22f-140e-40b4-9924-31c158e55f1f",
+          "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+          "city": "Львів",
+          "street": "вул. Стрийська",
+          "building": "95",
+          "lat": "49.84084525206923",
+          "lng": "24.012793981653218",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "575ee142-2e09-4e71-b51e-8e48daef7b86",
+          "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+          "measurer_id": "11111111-1111-1111-1111-111111111111",
+          "scheduled_date": "2026-07-15T21:00:00.000Z",
+          "start_time": "12:00:00",
+          "end_time": "13:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.237Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "full_name": "Олег Замірник (Львів)",
+            "role_code": "MEASURER",
+            "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+            "is_active": true,
+            "created_at": "2026-07-14T12:45:49.228Z",
+            "updated_at": "2026-07-14T12:45:49.228Z",
+            "allowed_view_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "allowed_action_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "color": "#3b82f6",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "62dce230-5d7f-47c6-b6d2-279a38543baa",
+          "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+          "full_name": "Андрій Бойко",
+          "phone": "+380111298640",
+          "phone_normalized": "380111298640",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "59675d32-f5d6-4ae6-b250-01716b0be933",
+      "order_number": "ORD-2026-0010",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.240Z",
+      "updated_at": "2026-07-14T13:51:28.240Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "e7aa1acc-ae7e-44cd-85b5-0c7b2b4c36d4",
+          "order_id": "59675d32-f5d6-4ae6-b250-01716b0be933",
+          "city": "Львів",
+          "street": "просп. Чорновола",
+          "building": "49",
+          "lat": "49.81651107529935",
+          "lng": "24.03522801719024",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "fb779cb4-97d7-45e9-b92e-776faec0fba1",
+          "order_id": "59675d32-f5d6-4ae6-b250-01716b0be933",
+          "full_name": "Сергій Кравченко",
+          "phone": "+380337551909",
+          "phone_normalized": "380337551909",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+      "order_number": "ORD-2026-0011",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_COMPLETED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.248Z",
+      "updated_at": "2026-07-14T13:51:28.248Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "21dac25f-d5f1-442c-b209-bb28cbef962f",
+          "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+          "city": "Львів",
+          "street": "вул. Шевченка",
+          "building": "22",
+          "lat": "49.80693810202648",
+          "lng": "24.02823793719787",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "92d5eb1f-f6d2-48ad-bb3e-ecee7de570dc",
+          "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+          "measurer_id": "11111111-1111-1111-1111-111111111111",
+          "scheduled_date": "2026-07-11T21:00:00.000Z",
+          "start_time": "13:00:00",
+          "end_time": "14:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.258Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "full_name": "Олег Замірник (Львів)",
+            "role_code": "MEASURER",
+            "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+            "is_active": true,
+            "created_at": "2026-07-14T12:45:49.228Z",
+            "updated_at": "2026-07-14T12:45:49.228Z",
+            "allowed_view_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "allowed_action_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "color": "#3b82f6",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "6af0afb6-3b59-4e38-a5dc-e85dff25da59",
+          "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+          "full_name": "Тетяна Бондаренко",
+          "phone": "+380545539772",
+          "phone_normalized": "380545539772",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "0ec8143b-17fb-484c-b54b-3b8c5c9fbc44",
+      "order_number": "ORD-2026-0012",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.261Z",
+      "updated_at": "2026-07-14T13:51:28.261Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "d3ef256e-5c5b-4921-a240-3940b9d7c3d4",
+          "order_id": "0ec8143b-17fb-484c-b54b-3b8c5c9fbc44",
+          "city": "Київ",
+          "street": "вул. Жилянська",
+          "building": "80",
+          "lat": "50.42251352875917",
+          "lng": "30.52038932109009",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "2707b232-c77b-4c3d-a892-85516fb761c2",
+          "order_id": "0ec8143b-17fb-484c-b54b-3b8c5c9fbc44",
+          "full_name": "Олена Мельник",
+          "phone": "+380258506699",
+          "phone_normalized": "380258506699",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "7d19ca09-dc3f-4559-be1f-56831a0ab659",
+      "order_number": "ORD-2026-0013",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.271Z",
+      "updated_at": "2026-07-14T13:51:28.271Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "46bc40b5-1e43-46b7-845f-ac2744382be8",
+          "order_id": "7d19ca09-dc3f-4559-be1f-56831a0ab659",
+          "city": "Львів",
+          "street": "вул. Франка",
+          "building": "37",
+          "lat": "49.841869238346774",
+          "lng": "24.07395502220206",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "66599714-0b04-4d9a-b108-b4b762e32d39",
+          "order_id": "7d19ca09-dc3f-4559-be1f-56831a0ab659",
+          "full_name": "Дмитро Бойко",
+          "phone": "+380843772052",
+          "phone_normalized": "380843772052",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+      "order_number": "ORD-2026-0014",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_COMPLETED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.280Z",
+      "updated_at": "2026-07-14T13:51:28.280Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "978f71b7-8ab1-4baf-bbb3-5fc0b5a0c44a",
+          "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+          "city": "Львів",
+          "street": "вул. Наукова",
+          "building": "71",
+          "lat": "49.85840662882981",
+          "lng": "24.07864006896541",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "a040dfd1-45c2-4f3c-9b19-887e3f2b1eaa",
+          "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+          "measurer_id": "11111111-1111-1111-1111-111111111111",
+          "scheduled_date": "2026-07-10T21:00:00.000Z",
+          "start_time": "16:00:00",
+          "end_time": "17:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.354Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "full_name": "Олег Замірник (Львів)",
+            "role_code": "MEASURER",
+            "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+            "is_active": true,
+            "created_at": "2026-07-14T12:45:49.228Z",
+            "updated_at": "2026-07-14T12:45:49.228Z",
+            "allowed_view_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "allowed_action_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "color": "#3b82f6",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "fbf197eb-e13f-4fee-b601-82a3613d150c",
+          "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+          "full_name": "Олена Поліщук",
+          "phone": "+380889859552",
+          "phone_normalized": "380889859552",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+      "order_number": "ORD-2026-0015",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_SCHEDULED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.357Z",
+      "updated_at": "2026-07-14T13:51:28.357Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "589c4790-d329-49a4-9632-282afd370ad5",
+          "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+          "city": "Львів",
+          "street": "вул. Стрийська",
+          "building": "80",
+          "lat": "49.84843361487365",
+          "lng": "24.016967045895587",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "47cc39aa-a060-4aea-8095-313331a3ef36",
+          "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+          "measurer_id": "11111111-1111-1111-1111-111111111111",
+          "scheduled_date": "2026-07-14T21:00:00.000Z",
+          "start_time": "12:00:00",
+          "end_time": "13:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.367Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "full_name": "Олег Замірник (Львів)",
+            "role_code": "MEASURER",
+            "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+            "is_active": true,
+            "created_at": "2026-07-14T12:45:49.228Z",
+            "updated_at": "2026-07-14T12:45:49.228Z",
+            "allowed_view_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "allowed_action_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "color": "#3b82f6",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "44260ef9-6094-4609-8f73-65ee077120dc",
+          "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+          "full_name": "Анна Олійник",
+          "phone": "+380829851522",
+          "phone_normalized": "380829851522",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "480aae97-fa3f-4ef3-97ea-a62e5d6f9cf3",
+      "order_number": "ORD-2026-0016",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.370Z",
+      "updated_at": "2026-07-14T13:51:28.370Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "cfd6880d-9155-4d8a-b2d3-3512ae1fb87c",
+          "order_id": "480aae97-fa3f-4ef3-97ea-a62e5d6f9cf3",
+          "city": "Київ",
+          "street": "просп. Бажана",
+          "building": "78",
+          "lat": "50.47126988784419",
+          "lng": "30.568680836965118",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [],
+      "order_contacts": [
+        {
+          "id": "bbf129ca-44e8-4711-a259-857d9308cbed",
+          "order_id": "480aae97-fa3f-4ef3-97ea-a62e5d6f9cf3",
+          "full_name": "Іван Ткаченко",
+          "phone": "+380206905954",
+          "phone_normalized": "380206905954",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+      "order_number": "ORD-2026-0017",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.380Z",
+      "updated_at": "2026-07-14T13:51:28.380Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "6d8e7667-b50c-4390-93e0-b5c34a34931e",
+          "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+          "city": "Київ",
+          "street": "просп. Оболонський",
+          "building": "44",
+          "lat": "50.47686220352672",
+          "lng": "30.534033595711627",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "da5d91b4-6a63-41e1-b4b8-5810c05bc100",
+          "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-13T21:00:00.000Z",
+          "start_time": "10:00:00",
+          "end_time": "11:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.389Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "1661955e-e63e-4ff0-aed2-f73f8a3b40a7",
+          "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+          "full_name": "Іван Коваленко",
+          "phone": "+380856007167",
+          "phone_normalized": "380856007167",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+      "order_number": "ORD-2026-0018",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_COMPLETED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.392Z",
+      "updated_at": "2026-07-14T13:51:28.392Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "fe64dfc1-1aa1-431a-a3f2-30fac050edb1",
+          "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+          "city": "Київ",
+          "street": "вул. Жилянська",
+          "building": "99",
+          "lat": "50.46904127832565",
+          "lng": "30.56891189556202",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "e701f1e9-b109-4b2a-a32b-9fb7ddaa6180",
+          "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-10T21:00:00.000Z",
+          "start_time": "15:00:00",
+          "end_time": "16:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.402Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "ecf5697c-cb65-4927-9300-08cadc9b6567",
+          "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+          "full_name": "Тетяна Ткаченко",
+          "phone": "+380338458079",
+          "phone_normalized": "380338458079",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+      "order_number": "ORD-2026-0019",
+      "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+      "status": "MEASUREMENT_SCHEDULED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.406Z",
+      "updated_at": "2026-07-14T13:51:28.406Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "edc50292-0b73-43be-a6b8-8c3eaf5a191e",
+          "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+          "city": "Львів",
+          "street": "вул. Франка",
+          "building": "1",
+          "lat": "49.86636221239011",
+          "lng": "24.05276106497658",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "name": "Філія Львів",
+        "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "name": "Захід"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "3f23b2bf-3100-41f1-8146-10b9173561d3",
+          "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+          "measurer_id": "11111111-1111-1111-1111-111111111111",
+          "scheduled_date": "2026-07-14T21:00:00.000Z",
+          "start_time": "16:00:00",
+          "end_time": "17:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.415Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "11111111-1111-1111-1111-111111111111",
+            "full_name": "Олег Замірник (Львів)",
+            "role_code": "MEASURER",
+            "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+            "is_active": true,
+            "created_at": "2026-07-14T12:45:49.228Z",
+            "updated_at": "2026-07-14T12:45:49.228Z",
+            "allowed_view_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "allowed_action_regions": [
+              "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+            ],
+            "color": "#3b82f6",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "241edda3-df28-4412-9b0b-4dfee9c15496",
+          "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+          "full_name": "Андрій Ткаченко",
+          "phone": "+380355768061",
+          "phone_normalized": "380355768061",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+      "order_number": "ORD-2026-0006",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.194Z",
+      "updated_at": "2026-07-14T13:51:28.194Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": "2026-07-14T13:52:42.404Z",
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": "2026-07-14T13:52:42.404Z",
+      "call_comment": "Потрібен повторний контакт",
+      "order_addresses": [
+        {
+          "id": "fde288c4-21cf-4aec-8c3c-39088a7fed76",
+          "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+          "city": "Київ",
+          "street": "вул. Антоновича",
+          "building": "8",
+          "lat": "50.48158104878732",
+          "lng": "30.55949649977514",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "503431e2-099d-4ca6-8b84-5513be31d1e1",
+          "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-13T21:00:00.000Z",
+          "start_time": "15:00:00",
+          "end_time": "16:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.203Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "1880da18-d95a-4050-ac56-b59f9ca5dcf4",
+          "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+          "full_name": "Іван Ткаченко",
+          "phone": "+380829033541",
+          "phone_normalized": "380829033541",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+      "order_number": "ORD-2026-0001",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_COMPLETED",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.065Z",
+      "updated_at": "2026-07-14T13:51:28.065Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": null,
+      "call_comment": null,
+      "order_addresses": [
+        {
+          "id": "7375d8f5-36ee-417f-9ace-16feeb298404",
+          "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+          "city": "Київ",
+          "street": "вул. Хрещатик",
+          "building": "10",
+          "lat": "50.40973012591153",
+          "lng": "30.513088616493437",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "e72b439e-ad89-4cdb-a25e-67072a43331e",
+          "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-11T21:00:00.000Z",
+          "start_time": "15:00:00",
+          "end_time": "16:00:00",
+          "estimated_travel_time_mins": null,
+          "created_at": "2026-07-14T13:51:28.141Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "54005caa-6d3f-4560-910f-7282e31de5b0",
+          "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+          "full_name": "Сергій Мельник",
+          "phone": "+380810707549",
+          "phone_normalized": "380810707549",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+      "order_number": "ORD-2026-0003",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.160Z",
+      "updated_at": "2026-07-14T13:51:28.160Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": "2026-07-14T13:52:46.185Z",
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": "2026-07-15T10:00:00.000Z",
+      "call_comment": "Нагадування клієнту перед виїздом",
+      "order_addresses": [
+        {
+          "id": "37272478-71fa-407d-b336-b8a1c9e3bf53",
+          "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+          "city": "Київ",
+          "street": "вул. Борщагівська",
+          "building": "36",
+          "lat": "50.457559949579036",
+          "lng": "30.560563474854213",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "ffd7a7ae-9059-4892-a20e-6573c0fb5bf1",
+          "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-15T21:00:00.000Z",
+          "start_time": "10:00:00",
+          "end_time": "12:00:00",
+          "estimated_travel_time_mins": 22,
+          "created_at": "2026-07-14T13:51:28.170Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "68280e8f-f08a-4607-911a-9e3231689dd6",
+          "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+          "full_name": "Андрій Бондаренко",
+          "phone": "+380597728630",
+          "phone_normalized": "380597728630",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    },
+    {
+      "id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+      "order_number": "ORD-2026-0020",
+      "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+      "status": "MEASUREMENT_SCHEDULING",
+      "version": 1,
+      "locked_by": null,
+      "lock_expires_at": null,
+      "is_hidden": false,
+      "cancel_reason_text": null,
+      "created_at": "2026-07-14T13:51:28.418Z",
+      "updated_at": "2026-07-14T13:51:28.418Z",
+      "order_type": "FULL_CYCLE",
+      "payment_percent": "0",
+      "is_credit": false,
+      "payment_updated_at": null,
+      "payment_source": null,
+      "previous_status": null,
+      "parent_order_id": null,
+      "external_id": null,
+      "is_incomplete": false,
+      "cancel_reason_id": null,
+      "pause_reason_id": null,
+      "resume_date": null,
+      "entered_measurement_pool_at": null,
+      "document_date": null,
+      "base_readiness_date": null,
+      "payment_date": null,
+      "calc_readiness_date": null,
+      "planned_call_date": "2026-07-13T10:00:00.000Z",
+      "call_comment": "Нагадування клієнту перед виїздом",
+      "order_addresses": [
+        {
+          "id": "daf96210-8127-4705-ae0e-23e9fd549c4c",
+          "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+          "city": "Київ",
+          "street": "вул. Саксаганського",
+          "building": "79",
+          "lat": "50.455437616474306",
+          "lng": "30.524396310068056",
+          "is_manually_pinned": false
+        }
+      ],
+      "branches": {
+        "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "name": "Філія Київ",
+        "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+        "lat": null,
+        "lng": null,
+        "regions": {
+          "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "name": "Центр"
+        }
+      },
+      "measurement_tasks": [
+        {
+          "id": "761e8a39-9152-47cb-b040-dbaadf389b62",
+          "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+          "measurer_id": "22222222-2222-2222-2222-222222222222",
+          "scheduled_date": "2026-07-13T21:00:00.000Z",
+          "start_time": "10:00:00",
+          "end_time": "12:00:00",
+          "estimated_travel_time_mins": 5,
+          "created_at": "2026-07-14T13:53:02.835Z",
+          "actual_start_time": null,
+          "actual_end_time": null,
+          "outcome": "SCHEDULED",
+          "failure_reason": null,
+          "profiles": {
+            "id": "22222222-2222-2222-2222-222222222222",
+            "full_name": "Антон Замірник (Київ)",
+            "role_code": "MEASURER",
+            "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+            "is_active": true,
+            "created_at": "2026-07-14T13:51:27.991Z",
+            "updated_at": "2026-07-14T13:51:27.991Z",
+            "allowed_view_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "allowed_action_regions": [
+              "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+            ],
+            "color": "#ef4444",
+            "base_lat": null,
+            "base_lng": null
+          }
+        }
+      ],
+      "order_contacts": [
+        {
+          "id": "f9c59901-6c65-47ef-a87b-6e2895f61233",
+          "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+          "full_name": "Андрій Шевченко",
+          "phone": "+380137779551",
+          "phone_normalized": "380137779551",
+          "email": null,
+          "role": "CUSTOMER"
+        }
+      ]
+    }
+  ],
+  "measurement_tasks": [
+    {
+      "id": "e72b439e-ad89-4cdb-a25e-67072a43331e",
+      "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-11T21:00:00.000Z",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.141Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+        "order_number": "ORD-2026-0001",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_COMPLETED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.065Z",
+        "updated_at": "2026-07-14T13:51:28.065Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "7375d8f5-36ee-417f-9ace-16feeb298404",
+            "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+            "city": "Київ",
+            "street": "вул. Хрещатик",
+            "building": "10",
+            "lat": "50.40973012591153",
+            "lng": "30.513088616493437",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "e72b439e-ad89-4cdb-a25e-67072a43331e",
+            "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-11T21:00:00.000Z",
+            "start_time": "15:00:00",
+            "end_time": "16:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.141Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "54005caa-6d3f-4560-910f-7282e31de5b0",
+            "order_id": "a7fee0f6-6f11-4abd-8147-0178f658950c",
+            "full_name": "Сергій Мельник",
+            "phone": "+380810707549",
+            "phone_normalized": "380810707549",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "4108537f-9ef9-4686-a638-2f3ca82b1e03",
+      "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-11T21:00:00.000Z",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.156Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+        "order_number": "ORD-2026-0002",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_COMPLETED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.144Z",
+        "updated_at": "2026-07-14T13:51:28.144Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "eaad1884-1e74-40d3-b06c-b3723c360bfd",
+            "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+            "city": "Київ",
+            "street": "вул. Саксаганського",
+            "building": "44",
+            "lat": "50.443064463120095",
+            "lng": "30.548221321438227",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "4108537f-9ef9-4686-a638-2f3ca82b1e03",
+            "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-11T21:00:00.000Z",
+            "start_time": "12:00:00",
+            "end_time": "13:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.156Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "fddaa9f2-2af6-4c39-93ba-272ba3d692b1",
+            "order_id": "7c537c39-c8d7-4614-b416-37098fecdd7b",
+            "full_name": "Олена Олійник",
+            "phone": "+380202439484",
+            "phone_normalized": "380202439484",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "503431e2-099d-4ca6-8b84-5513be31d1e1",
+      "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-13T21:00:00.000Z",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.203Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+        "order_number": "ORD-2026-0006",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_SCHEDULING",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.194Z",
+        "updated_at": "2026-07-14T13:51:28.194Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": "2026-07-14T13:52:42.404Z",
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": "2026-07-14T13:52:42.404Z",
+        "call_comment": "Потрібен повторний контакт",
+        "order_addresses": [
+          {
+            "id": "fde288c4-21cf-4aec-8c3c-39088a7fed76",
+            "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+            "city": "Київ",
+            "street": "вул. Антоновича",
+            "building": "8",
+            "lat": "50.48158104878732",
+            "lng": "30.55949649977514",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "503431e2-099d-4ca6-8b84-5513be31d1e1",
+            "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-13T21:00:00.000Z",
+            "start_time": "15:00:00",
+            "end_time": "16:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.203Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "1880da18-d95a-4050-ac56-b59f9ca5dcf4",
+            "order_id": "6017cd10-0a32-4532-a9ab-87133da17a97",
+            "full_name": "Іван Ткаченко",
+            "phone": "+380829033541",
+            "phone_normalized": "380829033541",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ba6a3397-97d6-4884-8012-e79317f2b072",
+      "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-10T21:00:00.000Z",
+      "start_time": "11:00:00",
+      "end_time": "12:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.225Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+        "order_number": "ORD-2026-0008",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_COMPLETED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.216Z",
+        "updated_at": "2026-07-14T13:51:28.216Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "c4d9e0f1-17c6-4da1-8db6-685042b9fe19",
+            "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+            "city": "Київ",
+            "street": "просп. Оболонський",
+            "building": "46",
+            "lat": "50.47209122852384",
+            "lng": "30.502182737763803",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "ba6a3397-97d6-4884-8012-e79317f2b072",
+            "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-10T21:00:00.000Z",
+            "start_time": "11:00:00",
+            "end_time": "12:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.225Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "6c1e1411-0e50-44af-afbf-dbf1db773327",
+            "order_id": "72c56e04-c6f5-48b0-a8cb-2f80977f16b8",
+            "full_name": "Марія Кравченко",
+            "phone": "+380441738194",
+            "phone_normalized": "380441738194",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "575ee142-2e09-4e71-b51e-8e48daef7b86",
+      "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+      "measurer_id": "11111111-1111-1111-1111-111111111111",
+      "scheduled_date": "2026-07-15T21:00:00.000Z",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.237Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "full_name": "Олег Замірник (Львів)",
+        "role_code": "MEASURER",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "is_active": true,
+        "created_at": "2026-07-14T12:45:49.228Z",
+        "updated_at": "2026-07-14T12:45:49.228Z",
+        "allowed_view_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "allowed_action_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "color": "#3b82f6",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+        "order_number": "ORD-2026-0009",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "status": "MEASUREMENT_SCHEDULED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.228Z",
+        "updated_at": "2026-07-14T13:51:28.228Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "5acff22f-140e-40b4-9924-31c158e55f1f",
+            "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+            "city": "Львів",
+            "street": "вул. Стрийська",
+            "building": "95",
+            "lat": "49.84084525206923",
+            "lng": "24.012793981653218",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+          "name": "Філія Львів",
+          "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+            "name": "Захід"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "575ee142-2e09-4e71-b51e-8e48daef7b86",
+            "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+            "measurer_id": "11111111-1111-1111-1111-111111111111",
+            "scheduled_date": "2026-07-15T21:00:00.000Z",
+            "start_time": "12:00:00",
+            "end_time": "13:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.237Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "11111111-1111-1111-1111-111111111111",
+              "full_name": "Олег Замірник (Львів)",
+              "role_code": "MEASURER",
+              "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+              "is_active": true,
+              "created_at": "2026-07-14T12:45:49.228Z",
+              "updated_at": "2026-07-14T12:45:49.228Z",
+              "allowed_view_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "allowed_action_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "color": "#3b82f6",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "62dce230-5d7f-47c6-b6d2-279a38543baa",
+            "order_id": "52d8aace-3d42-42a9-a183-fe137492a79c",
+            "full_name": "Андрій Бойко",
+            "phone": "+380111298640",
+            "phone_normalized": "380111298640",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "92d5eb1f-f6d2-48ad-bb3e-ecee7de570dc",
+      "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+      "measurer_id": "11111111-1111-1111-1111-111111111111",
+      "scheduled_date": "2026-07-11T21:00:00.000Z",
+      "start_time": "13:00:00",
+      "end_time": "14:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.258Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "full_name": "Олег Замірник (Львів)",
+        "role_code": "MEASURER",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "is_active": true,
+        "created_at": "2026-07-14T12:45:49.228Z",
+        "updated_at": "2026-07-14T12:45:49.228Z",
+        "allowed_view_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "allowed_action_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "color": "#3b82f6",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+        "order_number": "ORD-2026-0011",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "status": "MEASUREMENT_COMPLETED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.248Z",
+        "updated_at": "2026-07-14T13:51:28.248Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "21dac25f-d5f1-442c-b209-bb28cbef962f",
+            "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+            "city": "Львів",
+            "street": "вул. Шевченка",
+            "building": "22",
+            "lat": "49.80693810202648",
+            "lng": "24.02823793719787",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+          "name": "Філія Львів",
+          "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+            "name": "Захід"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "92d5eb1f-f6d2-48ad-bb3e-ecee7de570dc",
+            "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+            "measurer_id": "11111111-1111-1111-1111-111111111111",
+            "scheduled_date": "2026-07-11T21:00:00.000Z",
+            "start_time": "13:00:00",
+            "end_time": "14:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.258Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "11111111-1111-1111-1111-111111111111",
+              "full_name": "Олег Замірник (Львів)",
+              "role_code": "MEASURER",
+              "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+              "is_active": true,
+              "created_at": "2026-07-14T12:45:49.228Z",
+              "updated_at": "2026-07-14T12:45:49.228Z",
+              "allowed_view_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "allowed_action_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "color": "#3b82f6",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "6af0afb6-3b59-4e38-a5dc-e85dff25da59",
+            "order_id": "7c88d9b0-fafc-41bb-9a33-47a44858a59d",
+            "full_name": "Тетяна Бондаренко",
+            "phone": "+380545539772",
+            "phone_normalized": "380545539772",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "a040dfd1-45c2-4f3c-9b19-887e3f2b1eaa",
+      "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+      "measurer_id": "11111111-1111-1111-1111-111111111111",
+      "scheduled_date": "2026-07-10T21:00:00.000Z",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.354Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "full_name": "Олег Замірник (Львів)",
+        "role_code": "MEASURER",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "is_active": true,
+        "created_at": "2026-07-14T12:45:49.228Z",
+        "updated_at": "2026-07-14T12:45:49.228Z",
+        "allowed_view_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "allowed_action_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "color": "#3b82f6",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+        "order_number": "ORD-2026-0014",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "status": "MEASUREMENT_COMPLETED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.280Z",
+        "updated_at": "2026-07-14T13:51:28.280Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "978f71b7-8ab1-4baf-bbb3-5fc0b5a0c44a",
+            "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+            "city": "Львів",
+            "street": "вул. Наукова",
+            "building": "71",
+            "lat": "49.85840662882981",
+            "lng": "24.07864006896541",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+          "name": "Філія Львів",
+          "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+            "name": "Захід"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "a040dfd1-45c2-4f3c-9b19-887e3f2b1eaa",
+            "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+            "measurer_id": "11111111-1111-1111-1111-111111111111",
+            "scheduled_date": "2026-07-10T21:00:00.000Z",
+            "start_time": "16:00:00",
+            "end_time": "17:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.354Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "11111111-1111-1111-1111-111111111111",
+              "full_name": "Олег Замірник (Львів)",
+              "role_code": "MEASURER",
+              "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+              "is_active": true,
+              "created_at": "2026-07-14T12:45:49.228Z",
+              "updated_at": "2026-07-14T12:45:49.228Z",
+              "allowed_view_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "allowed_action_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "color": "#3b82f6",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "fbf197eb-e13f-4fee-b601-82a3613d150c",
+            "order_id": "2a9ed083-42c8-4fd4-a2cc-0c38acb4acd3",
+            "full_name": "Олена Поліщук",
+            "phone": "+380889859552",
+            "phone_normalized": "380889859552",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "47cc39aa-a060-4aea-8095-313331a3ef36",
+      "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+      "measurer_id": "11111111-1111-1111-1111-111111111111",
+      "scheduled_date": "2026-07-14T21:00:00.000Z",
+      "start_time": "12:00:00",
+      "end_time": "13:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.367Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "full_name": "Олег Замірник (Львів)",
+        "role_code": "MEASURER",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "is_active": true,
+        "created_at": "2026-07-14T12:45:49.228Z",
+        "updated_at": "2026-07-14T12:45:49.228Z",
+        "allowed_view_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "allowed_action_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "color": "#3b82f6",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+        "order_number": "ORD-2026-0015",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "status": "MEASUREMENT_SCHEDULED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.357Z",
+        "updated_at": "2026-07-14T13:51:28.357Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "589c4790-d329-49a4-9632-282afd370ad5",
+            "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+            "city": "Львів",
+            "street": "вул. Стрийська",
+            "building": "80",
+            "lat": "49.84843361487365",
+            "lng": "24.016967045895587",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+          "name": "Філія Львів",
+          "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+            "name": "Захід"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "47cc39aa-a060-4aea-8095-313331a3ef36",
+            "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+            "measurer_id": "11111111-1111-1111-1111-111111111111",
+            "scheduled_date": "2026-07-14T21:00:00.000Z",
+            "start_time": "12:00:00",
+            "end_time": "13:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.367Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "11111111-1111-1111-1111-111111111111",
+              "full_name": "Олег Замірник (Львів)",
+              "role_code": "MEASURER",
+              "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+              "is_active": true,
+              "created_at": "2026-07-14T12:45:49.228Z",
+              "updated_at": "2026-07-14T12:45:49.228Z",
+              "allowed_view_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "allowed_action_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "color": "#3b82f6",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "44260ef9-6094-4609-8f73-65ee077120dc",
+            "order_id": "431ec158-4c8d-4adf-b7f9-a80c55695363",
+            "full_name": "Анна Олійник",
+            "phone": "+380829851522",
+            "phone_normalized": "380829851522",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "da5d91b4-6a63-41e1-b4b8-5810c05bc100",
+      "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-13T21:00:00.000Z",
+      "start_time": "10:00:00",
+      "end_time": "11:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.389Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+        "order_number": "ORD-2026-0017",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_SCHEDULED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.380Z",
+        "updated_at": "2026-07-14T13:51:28.380Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "6d8e7667-b50c-4390-93e0-b5c34a34931e",
+            "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+            "city": "Київ",
+            "street": "просп. Оболонський",
+            "building": "44",
+            "lat": "50.47686220352672",
+            "lng": "30.534033595711627",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "da5d91b4-6a63-41e1-b4b8-5810c05bc100",
+            "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-13T21:00:00.000Z",
+            "start_time": "10:00:00",
+            "end_time": "11:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.389Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "1661955e-e63e-4ff0-aed2-f73f8a3b40a7",
+            "order_id": "6779cee4-f15e-4791-96cf-6fcc6aba21c0",
+            "full_name": "Іван Коваленко",
+            "phone": "+380856007167",
+            "phone_normalized": "380856007167",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e701f1e9-b109-4b2a-a32b-9fb7ddaa6180",
+      "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-10T21:00:00.000Z",
+      "start_time": "15:00:00",
+      "end_time": "16:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.402Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+        "order_number": "ORD-2026-0018",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_COMPLETED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.392Z",
+        "updated_at": "2026-07-14T13:51:28.392Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "fe64dfc1-1aa1-431a-a3f2-30fac050edb1",
+            "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+            "city": "Київ",
+            "street": "вул. Жилянська",
+            "building": "99",
+            "lat": "50.46904127832565",
+            "lng": "30.56891189556202",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "e701f1e9-b109-4b2a-a32b-9fb7ddaa6180",
+            "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-10T21:00:00.000Z",
+            "start_time": "15:00:00",
+            "end_time": "16:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.402Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "ecf5697c-cb65-4927-9300-08cadc9b6567",
+            "order_id": "dc3c6989-b554-41b3-9c2e-37bedb7b0664",
+            "full_name": "Тетяна Ткаченко",
+            "phone": "+380338458079",
+            "phone_normalized": "380338458079",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "3f23b2bf-3100-41f1-8146-10b9173561d3",
+      "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+      "measurer_id": "11111111-1111-1111-1111-111111111111",
+      "scheduled_date": "2026-07-14T21:00:00.000Z",
+      "start_time": "16:00:00",
+      "end_time": "17:00:00",
+      "estimated_travel_time_mins": null,
+      "created_at": "2026-07-14T13:51:28.415Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "full_name": "Олег Замірник (Львів)",
+        "role_code": "MEASURER",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "is_active": true,
+        "created_at": "2026-07-14T12:45:49.228Z",
+        "updated_at": "2026-07-14T12:45:49.228Z",
+        "allowed_view_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "allowed_action_regions": [
+          "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+        ],
+        "color": "#3b82f6",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+        "order_number": "ORD-2026-0019",
+        "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+        "status": "MEASUREMENT_SCHEDULED",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.406Z",
+        "updated_at": "2026-07-14T13:51:28.406Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": null,
+        "call_comment": null,
+        "order_addresses": [
+          {
+            "id": "edc50292-0b73-43be-a6b8-8c3eaf5a191e",
+            "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+            "city": "Львів",
+            "street": "вул. Франка",
+            "building": "1",
+            "lat": "49.86636221239011",
+            "lng": "24.05276106497658",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "158c6148-1269-4df1-b3aa-610271c8c051",
+          "name": "Філія Львів",
+          "region_id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "ceea77c9-966e-4a74-a944-5ff5a7d236c4",
+            "name": "Захід"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "3f23b2bf-3100-41f1-8146-10b9173561d3",
+            "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+            "measurer_id": "11111111-1111-1111-1111-111111111111",
+            "scheduled_date": "2026-07-14T21:00:00.000Z",
+            "start_time": "16:00:00",
+            "end_time": "17:00:00",
+            "estimated_travel_time_mins": null,
+            "created_at": "2026-07-14T13:51:28.415Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "11111111-1111-1111-1111-111111111111",
+              "full_name": "Олег Замірник (Львів)",
+              "role_code": "MEASURER",
+              "branch_id": "158c6148-1269-4df1-b3aa-610271c8c051",
+              "is_active": true,
+              "created_at": "2026-07-14T12:45:49.228Z",
+              "updated_at": "2026-07-14T12:45:49.228Z",
+              "allowed_view_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "allowed_action_regions": [
+                "ceea77c9-966e-4a74-a944-5ff5a7d236c4"
+              ],
+              "color": "#3b82f6",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "241edda3-df28-4412-9b0b-4dfee9c15496",
+            "order_id": "ea0521ff-ae98-4298-a67c-ea54b5331027",
+            "full_name": "Андрій Ткаченко",
+            "phone": "+380355768061",
+            "phone_normalized": "380355768061",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ffd7a7ae-9059-4892-a20e-6573c0fb5bf1",
+      "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-15T21:00:00.000Z",
+      "start_time": "10:00:00",
+      "end_time": "12:00:00",
+      "estimated_travel_time_mins": 22,
+      "created_at": "2026-07-14T13:51:28.170Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+        "order_number": "ORD-2026-0003",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_SCHEDULING",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.160Z",
+        "updated_at": "2026-07-14T13:51:28.160Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": "2026-07-14T13:52:46.185Z",
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": "2026-07-15T10:00:00.000Z",
+        "call_comment": "Нагадування клієнту перед виїздом",
+        "order_addresses": [
+          {
+            "id": "37272478-71fa-407d-b336-b8a1c9e3bf53",
+            "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+            "city": "Київ",
+            "street": "вул. Борщагівська",
+            "building": "36",
+            "lat": "50.457559949579036",
+            "lng": "30.560563474854213",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "ffd7a7ae-9059-4892-a20e-6573c0fb5bf1",
+            "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-15T21:00:00.000Z",
+            "start_time": "10:00:00",
+            "end_time": "12:00:00",
+            "estimated_travel_time_mins": 22,
+            "created_at": "2026-07-14T13:51:28.170Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "68280e8f-f08a-4607-911a-9e3231689dd6",
+            "order_id": "94e90aab-c9e9-44db-8c70-e080dafefea4",
+            "full_name": "Андрій Бондаренко",
+            "phone": "+380597728630",
+            "phone_normalized": "380597728630",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    },
+    {
+      "id": "761e8a39-9152-47cb-b040-dbaadf389b62",
+      "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+      "measurer_id": "22222222-2222-2222-2222-222222222222",
+      "scheduled_date": "2026-07-13T21:00:00.000Z",
+      "start_time": "10:00:00",
+      "end_time": "12:00:00",
+      "estimated_travel_time_mins": 5,
+      "created_at": "2026-07-14T13:53:02.835Z",
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "outcome": "SCHEDULED",
+      "failure_reason": null,
+      "profiles": {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "full_name": "Антон Замірник (Київ)",
+        "role_code": "MEASURER",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "is_active": true,
+        "created_at": "2026-07-14T13:51:27.991Z",
+        "updated_at": "2026-07-14T13:51:27.991Z",
+        "allowed_view_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "allowed_action_regions": [
+          "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+        ],
+        "color": "#ef4444",
+        "base_lat": null,
+        "base_lng": null
+      },
+      "orders": {
+        "id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+        "order_number": "ORD-2026-0020",
+        "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+        "status": "MEASUREMENT_SCHEDULING",
+        "version": 1,
+        "locked_by": null,
+        "lock_expires_at": null,
+        "is_hidden": false,
+        "cancel_reason_text": null,
+        "created_at": "2026-07-14T13:51:28.418Z",
+        "updated_at": "2026-07-14T13:51:28.418Z",
+        "order_type": "FULL_CYCLE",
+        "payment_percent": "0",
+        "is_credit": false,
+        "payment_updated_at": null,
+        "payment_source": null,
+        "previous_status": null,
+        "parent_order_id": null,
+        "external_id": null,
+        "is_incomplete": false,
+        "cancel_reason_id": null,
+        "pause_reason_id": null,
+        "resume_date": null,
+        "entered_measurement_pool_at": null,
+        "document_date": null,
+        "base_readiness_date": null,
+        "payment_date": null,
+        "calc_readiness_date": null,
+        "planned_call_date": "2026-07-13T10:00:00.000Z",
+        "call_comment": "Нагадування клієнту перед виїздом",
+        "order_addresses": [
+          {
+            "id": "daf96210-8127-4705-ae0e-23e9fd549c4c",
+            "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+            "city": "Київ",
+            "street": "вул. Саксаганського",
+            "building": "79",
+            "lat": "50.455437616474306",
+            "lng": "30.524396310068056",
+            "is_manually_pinned": false
+          }
+        ],
+        "branches": {
+          "id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+          "name": "Філія Київ",
+          "region_id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+          "lat": null,
+          "lng": null,
+          "regions": {
+            "id": "6e5b5356-3085-4a2e-a6ce-58b0176e64af",
+            "name": "Центр"
+          }
+        },
+        "measurement_tasks": [
+          {
+            "id": "761e8a39-9152-47cb-b040-dbaadf389b62",
+            "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+            "measurer_id": "22222222-2222-2222-2222-222222222222",
+            "scheduled_date": "2026-07-13T21:00:00.000Z",
+            "start_time": "10:00:00",
+            "end_time": "12:00:00",
+            "estimated_travel_time_mins": 5,
+            "created_at": "2026-07-14T13:53:02.835Z",
+            "actual_start_time": null,
+            "actual_end_time": null,
+            "outcome": "SCHEDULED",
+            "failure_reason": null,
+            "profiles": {
+              "id": "22222222-2222-2222-2222-222222222222",
+              "full_name": "Антон Замірник (Київ)",
+              "role_code": "MEASURER",
+              "branch_id": "fd826dc4-6add-4a00-8cdd-ef792b821e64",
+              "is_active": true,
+              "created_at": "2026-07-14T13:51:27.991Z",
+              "updated_at": "2026-07-14T13:51:27.991Z",
+              "allowed_view_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "allowed_action_regions": [
+                "6e5b5356-3085-4a2e-a6ce-58b0176e64af"
+              ],
+              "color": "#ef4444",
+              "base_lat": null,
+              "base_lng": null
+            }
+          }
+        ],
+        "order_contacts": [
+          {
+            "id": "f9c59901-6c65-47ef-a87b-6e2895f61233",
+            "order_id": "fe9977a3-ff5a-4875-88c3-d58f4a822c9a",
+            "full_name": "Андрій Шевченко",
+            "phone": "+380137779551",
+            "phone_normalized": "380137779551",
+            "email": null,
+            "role": "CUSTOMER"
+          }
+        ]
+      }
+    }
+  ]
+}

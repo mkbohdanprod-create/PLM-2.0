@@ -1,0 +1,820 @@
+1: import { useEffect, useState, useRef } from 'react';
+2: import { supabase } from './supabase';
+3: import { Play, Pause, Save, XCircle, AlertTriangle, Lock, ArrowRight, Clock } from 'lucide-react';
+4: import { format } from 'date-fns';
+5: import { uk } from 'date-fns/locale';
+6: 
+7: import { getMacroStage, STATUS_LABELS, isPaused } from './utils/orderStages';
+8: 
+9: const ORDER_TYPES: Record<string, string> = {
+10:   FULL_CYCLE: 'Повний цикл',
+11:   BY_DRAWING: 'По кресленню',
+12:   NO_INSTALLATION: 'Без монтажу'
+13: };
+14: 
+15: interface OrderCardProps {
+16:   orderId: string;
+17:   onStatusChanged: () => void;
+18:   profile?: any;
+19: }
+20: 
+21: export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps) {
+22:   const [order, setOrder] = useState<any>(null);
+23:   const [transitions, setTransitions] = useState<string[]>([]);
+24:   const [selectedTarget, setSelectedTarget] = useState<string>('');
+25:   const [loading, setLoading] = useState(true);
+26:   const [actionError, setActionError] = useState('');
+27:   const [activeTab, setActiveTab] = useState('Інформація');
+28:   const [pauseReason, setPauseReason] = useState('');
+29:   const [pauseEndDate, setPauseEndDate] = useState('');
+30:   const [pauseActivityDate, setPauseActivityDate] = useState('');
+31:   const [pauseActivityComment, setPauseActivityComment] = useState('Дзвінок після паузи');
+32: 
+33:   useEffect(() => {
+34:     if (pauseEndDate && !pauseActivityDate) {
+35:       const d = new Date(pauseEndDate);
+36:       d.setDate(d.getDate() - 1);
+37:       d.setHours(10, 0, 0, 0);
+38:       try { setPauseActivityDate(d.toISOString().slice(0, 16)); } catch(e){}
+39:     }
+40:   }, [pauseEndDate]);
+41: 
+42:   const [history, setHistory] = useState<any[]>([]);
+43:   const [departurePoint, setDeparturePoint] = useState<string | null>(null);
+44:   
+45:   const [showFixateConfirm, setShowFixateConfirm] = useState(false);
+46:   const [showUnlockConfirm, setShowUnlockConfirm] = useState(false);
+47:   const [showPauseConfirm, setShowPauseConfirm] = useState(false);
+48:   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+49:   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+50:   const [deletePin, setDeletePin] = useState('');
+51: 
+52:   const scrollRef = useRef<HTMLDivElement>(null);
+53: 
+54:   const [isEditingDates, setIsEditingDates] = useState(false);
+55:   const [editDates, setEditDates] = useState({
+56:     document_date: '',
+57:     base_readiness_date: '',
+58:     payment_date: '',
+59:     calc_readiness_date: '',
+60:     planned_call_date: '',
+61:     call_comment: ''
+62:   });
+63:   const [savingDates, setSavingDates] = useState(false);
+64:   
+65:   const [taskToClose, setTaskToClose] = useState<any>(null);
+66:   const [showCreateTask, setShowCreateTask] = useState(false);
+67:   const [newTaskTitle, setNewTaskTitle] = useState('Дзвінок клієнту');
+68:   const [newTaskType, setNewTaskType] = useState('CALL');
+69:   const [newTaskDate, setNewTaskDate] = useState('');
+70:   const [newTaskComment, setNewTaskComment] = useState('');
+71:   
+72:   const [closeOutcome, setCloseOutcome] = useState('ANSWERED');
+73:   const [closeOutcomeNotes, setCloseOutcomeNotes] = useState('');
+74: 
+75:   useEffect(() => {
+76:     fetchOrder();
+77:   }, [orderId]);
+78: 
+79:   const fetchOrder = async () => {
+80:     setLoading(true);
+81:     setActionError('');
+82:     const { data: ord, error: ordErr } = await supabase
+83:       .from('orders')
+84:       .select('*, order_contacts(*), order_addresses(*), order_specifications(*), branches(region_id, name, regions(name)), measurement_tasks(*, profiles(full_name, branches(name))), order_activities(*), delivery_tasks(*, vehicles(name, plate_number), driver:profiles!driver_id(full_name))')
+85:       .eq('id', orderId)
+86:       .maybeSingle();
+87:     
+88:     if (ordErr) {
+89:       console.error(ordErr);
+90:       setLoading(false);
+91:       return;
+92:     }
+93:     setOrder(ord);
+94: 
+95:     // Fetch transitions using RPC
+96:     const { data: trans, error: transErr } = await supabase.rpc('get_allowed_transitions', { p_order_id: orderId });
+97:     if (!transErr && trans) {
+98:       const allowed = trans.map((t: any) => t.to_status);
+99:       setTransitions(allowed);
+100:       if (allowed.length > 0) {
+101:         setSelectedTarget(allowed[0]);
+102:       }
+103:     }
+104: 
+105:     const { data: histData } = await supabase
+106:       .from('order_status_history')
+107:       .select('*')
+108:       .eq('order_id', orderId)
+109:       .order('changed_at', { ascending: false });
+110:       
+280: 
+281:   const handleUnlockMeasurement = async () => {
+282:     try {
+283:       const { error } = await supabase.rpc('change_order_status', {
+284:         p_order_id: orderId,
+285:         p_new_status: 'MEASUREMENT_SCHEDULING'
+286:       });
+287:       if (error) throw error;
+288:       onStatusChanged?.();
+289:       fetchOrder();
+290:     } catch (err: any) {
+291:       alert('Помилка розблокування заміру: ' + err.message);
+292:     }
+293:   };
+294: 
+295:   const handleProcessTaskClose = async (resolution: string) => {
+296:     if (!taskToClose) return;
+297:     try {
+298:       const { error } = await supabase.rpc('complete_activity', {
+299:         p_activity_id: taskToClose.id,
+300:         p_outcome: closeOutcome,
+301:         p_outcome_notes: closeOutcomeNotes,
+302:         p_next_planned_at: (closeOutcome === 'RESCHEDULED' || closeOutcome === 'NO_ANSWER') && newTaskDate ? new Date(newTaskDate).toISOString() : null
+303:       });
+304:       if (error) throw error;
+305:       
+306:       if (resolution === 'RESCHEDULE') {
+307:         setShowCreateTask(true);
+308:       }
+309:       
+310:       setTaskToClose(null);
+311:       fetchOrder();
+312:       onStatusChanged?.();
+313:     } catch (e: any) {
+314:       alert(e.message);
+315:     }
+316:   };
+317: 
+318:   const handleCreateTask = async () => {
+319:     try {
+320:       const { error } = await supabase.from('order_activities').insert({
+321:          order_id: orderId,
+322:          title: newTaskTitle || 'Дзвінок клієнту',
+323:          activity_type: newTaskType,
+324:          macro_stage: newTaskMacroStage,
+325:          planned_at: newTaskDate ? new Date(newTaskDate).toISOString() : new Date(Date.now() + 86400000).toISOString(),
+326:          comment: newTaskComment || null
+327:       });
+328:       if (error) throw error;
+329:       setShowCreateTask(false);
+330:       setNewTaskTitle('Дзвінок клієнту');
+331:       setNewTaskDate('');
+332:       setNewTaskComment('');
+333:       fetchOrder();
+334:       onStatusChanged?.();
+335:     } catch (e: any) {
+336:       alert(e.message);
+337:     }
+338:   };
+339: 
+340:   if (loading) return <div style={{ padding: 'var(--space-24)', color: 'var(--text-secondary)' }}>Завантаження картки...</div>;
+341:   if (!order) return <div style={{ padding: 'var(--space-24)', color: 'var(--text-secondary)' }}>Замовлення не знайдено</div>;
+342: 
+343:   const contact = order.order_contacts?.[0] || {};
+344:   const address = order.order_addresses?.[0] || {};
+345:   const spec = order.order_specifications?.[0] || {};
+346:   const activeMeasTask = order.measurement_tasks?.find((t: any) => t.outcome === 'SCHEDULED' || t.outcome === 'IN_PROGRESS');
+347:   const activeDeliveryTask = order.delivery_tasks?.find((t: any) => t.outcome === 'SCHEDULED' || t.outcome === 'IN_PROGRESS');
+348:   
+349:   const pendingTasks = order.order_activities?.filter((t: any) => t.status === 'PENDING') || [];
+350:   const completedTasks = order.order_activities?.filter((t: any) => t.status === 'COMPLETED' || t.status === 'CANCELLED') || [];
+351:   
+352:   const activeTask = order.measurement_tasks?.find((t: any) => t.outcome === 'SCHEDULED' || t.outcome === 'IN_PROGRESS');
+353:   
+354:   const regionId = order.branches?.region_id;
+355:   const regionName = order.branches?.regions?.name || order.branches?.name || 'невідомого регіону';
+356:   
+357:   // Тимчасово дозволяємо ВСІМ користувачам виконувати дії, доки не впровадимо гнучкий модуль налаштування ролей
+358:   const hasActionRight = true;
+359: 
+360:   return (
+361:     <div style={{ padding: 'var(--space-24)', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+362:       
+363:       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+364:         <div>
+365:           <h2 style={{ margin: '0 0 8px 0', fontSize: '20px', color: 'var(--text-primary)' }}>
+366:             Замовлення {order.external_id || order.order_number || 'Без номера'}
+367:           </h2>
+368:           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+369:             <span className={`badge ${isPaused(order.status) ? 'pause' : 'cold'}`}>
+370:               {STATUS_LABELS[order.status] || order.status}
+371:             </span>
+372:             {order.is_incomplete && (
+373:               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(245, 158, 11, 0.1)', color: 'var(--accent-warning)', padding: '2px 6px', borderRadius: 'var(--radius-sm)', fontSize: '12px', fontWeight: 600 }}>
+374:                 <AlertTriangle size={12} /> Неповна
+375:               </span>
+376:             )}
+377:           </div>
+378:         </div>
+379: 
+380:         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '12px' }}>
+381: 
+382:           
+383:           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+384:             {isPaused(order.status) && (
+385:               <button 
+386:                 onClick={() => handleAction('RESUME')}
+387:                 style={{ padding: '6px 12px', background: 'var(--success-color)', color: 'white', border: 'none', borderRadius: '6px', fontWeight: 600, fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)' }}
+388:               >
+389:                 <Play size={14} /> Відновити
+390:               </button>
+391:   
+392: 
+393:             {order.status === 'MEASUREMENT_SCHEDULING' && (
+394:               <button 
+395:                 onClick={() => setShowFixateConfirm(true)}
+396:                 style={{
+397:                   padding: '6px 16px',
+398:                   background: 'var(--accent-color)',
+399:                   color: 'white',
+400:                   border: 'none',
+401:                   borderRadius: '6px',
+402:                   fontWeight: 600,
+403:                   fontSize: '12px',
+404:                   cursor: 'pointer',
+405:                   boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)',
+406:                   transition: 'transform 0.1s, box-shadow 0.1s'
+407:                 }}
+408:               >
+409:                 Зафіксувати
+410:               </button>
+411:             )}
+412: 
+413:             {order.status === 'MEASUREMENT_SCHEDULED' && (
+414:               <button 
+415:                 onClick={() => setShowUnlockConfirm(true)}
+416:                 style={{
+417:                   padding: '6px 12px',
+418:                   background: 'var(--bg-input)',
+419:                   color: 'var(--text-primary)',
+420:                   border: '1px solid var(--border-color)',
+421:                   borderRadius: '6px',
+422:                   fontWeight: 500,
+423:                   fontSize: '12px',
+424:                   cursor: 'pointer',
+425:                   transition: 'all 0.2s',
+426:                   display: 'flex',
+427:                   alignItems: 'center',
+428:                   gap: '4px'
+429:                 }}
+430:               >
+431:               </button>
+432:             )}
+433: 
+434:             {(order.status === 'MEASUREMENT_SCHEDULED' || order.status === 'MEASUREMENT_IN_PROGRESS') && (
+435:               <>
+436:                 <button 
+437:                   onClick={handleMeasurementFailed}
+438:                   style={{ padding: '6px 12px', background: 'var(--bg-input)', color: 'var(--accent-warning)', border: '1px solid var(--accent-warning)', borderRadius: '6px', fontWeight: 500, fontSize: '12px', cursor: 'pointer' }}
+439:                   title="Клієнт не зміг прийняти замірника (Перенесення)"
+440:                 >
+441:                   Не відбувся (Клієнт)
+442:                 </button>
+443:                 <button 
+444:                   onClick={handleMeasurementCanceled}
+445:                   style={{ padding: '6px 12px', background: 'var(--bg-input)', color: 'var(--danger-color)', border: '1px solid var(--danger-color)', borderRadius: '6px', fontWeight: 500, fontSize: '12px', cursor: 'pointer' }}
+446:                   title="Замірник не зміг приїхати (Повторний контакт)"
+447:                 >
+448:                   Скасовано (Компанія)
+449:                 </button>
+450:               </>
+451:             )}
+452: 
+453:             {(order.status === 'INSTALLATION_SCHEDULED' || order.status === 'INSTALLATION_IN_PROGRESS') && (
+454:               <>
+455:                 <button 
+456:                   onClick={handleInstallationFailed}
+457:                   style={{ padding: '6px 12px', background: 'var(--bg-input)', color: 'var(--accent-warning)', border: '1px solid var(--accent-warning)', borderRadius: '6px', fontWeight: 500, fontSize: '12px', cursor: 'pointer' }}
+458:                   title="Клієнт не зміг прийняти монтажників (Перенесення)"
+459:                 >
+460:                   Не відбувся (Клієнт)
+461:                 </button>
+462:               </>
+463:             )}
+464: 
+465:             {!isPaused(order.status) && order.status !== 'CANCELLED' && order.status !== 'COMPLETED' && order.status !== 'CLOSED' && (
+466:               <button 
+467:                 onClick={() => setShowPauseConfirm(true)}
+468:                 style={{ padding: '6px 12px', background: 'var(--bg-input)', color: 'var(--accent-warning)', border: '1px solid var(--accent-warning)', borderRadius: '6px', fontWeight: 500, fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+469:                 title="Поставити на паузу"
+470:               >
+471:                 Пауза
+472:               </button>
+473:             )}
+474: 
+475:             {transitions.includes('CANCELLED') && (
+476:               <button 
+477:                 onClick={() => setShowCancelConfirm(true)}
+478:                 style={{ padding: '6px 12px', background: 'var(--bg-input)', color: 'var(--accent-warning)', border: '1px solid var(--accent-warning)', borderRadius: '6px', fontWeight: 500, fontSize: '12px', cursor: 'pointer' }}
+479:               >
+480:                 Скасувати
+481:               </button>
+482:             )}
+483: 
+484:             <button 
+485:               onClick={() => setShowDeleteConfirm(true)}
+486:               style={{ padding: '6px 12px', background: 'var(--bg-input)', color: 'var(--danger-color)', border: '1px solid var(--danger-color)', borderRadius: '6px', fontWeight: 500, fontSize: '12px', cursor: 'pointer' }}
+487:             >
+488:               Видалити
+489:             </button>
+490:           </div>
+491:           
+492:           {/* Modal confirmation dialogs */}
+493:           {showFixateConfirm && (
+494:             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+495:               <div style={{ padding: '24px', background: 'var(--bg-panel)', border: '1px solid var(--accent-color)', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+496:                 <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: 'var(--text-primary)' }}>Підтвердження фіксації</h3>
+497:                 {(!activeMeasTask || !activeMeasTask.measurer_id) ? 
+498:                   <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--danger-color)' }}><strong>Увага! Цей замір не має призначеного замірника. Старшому замірнику буде надіслано сповіщення.</strong></p> :
+499:                   <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--text-primary)' }}>Фіксуємо замір у поточному стані?</p>
+500:                 }
+501:                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+502:                   <button onClick={() => setShowFixateConfirm(false)} style={{ padding: '8px 16px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 500 }}>Ні</button>
+503:                   <button onClick={() => { setShowFixateConfirm(false); handleFixateMeasurement(); }} style={{ padding: '8px 16px', background: 'var(--accent-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 500 }}>Так, зафіксувати</button>
+504:                 </div>
+505:               </div>
+506:             </div>
+507:           )}
+508: 
+509:           {showUnlockConfirm && (
+510:             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+511:               <div style={{ padding: '24px', background: 'var(--bg-panel)', border: '1px solid var(--border-color)', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+512:                 <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: 'var(--text-primary)' }}>Розблокування заміру</h3>
+513:                 <p style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Ви дійсно хочете розблокувати замір? (Замірнику буде надіслано сповіщення про зміну плану)</p>
+514:                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+515:                   <button onClick={() => setShowUnlockConfirm(false)} style={{ padding: '8px 16px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 500 }}>Скасувати</button>
+516:                   <button onClick={() => { setShowUnlockConfirm(false); handleUnlockMeasurement(); }} style={{ padding: '8px 16px', background: 'var(--text-primary)', color: 'var(--bg-panel)', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 500 }}>Так, розблокувати</button>
+517:                 </div>
+518:               </div>
+519:             </div>
+520:           )}
+521: 
+522:           {showPauseConfirm && (
+523:             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+524:               <div style={{ padding: '24px', background: 'var(--bg-panel)', border: '1px solid var(--accent-warning)', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+525:                 <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: 'var(--accent-warning)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+526:                   <AlertTriangle size={18} /> Поставити на паузу
+527:                 </h3>
+528:                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', color: 'var(--text-secondary)' }}>Вкажіть обов'язкову причину паузи:</label>
+529:                 <input 
+530:                   autoFocus
+531:                   value={pauseReason} 
+532:                   onChange={e => setPauseReason(e.target.value)}
+533:                   style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '16px' }}
+534:                   placeholder="Причина..."
+535:                 />
+536:                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', color: 'var(--text-secondary)' }}>Вкажіть дату закінчення паузи (наступний продзвон):</label>
+537:                 <input 
+538:                   type="date"
+539:                   value={pauseEndDate} 
+540:                   onChange={e => setPauseEndDate(e.target.value)}
+541:                   style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '20px' }}
+542:                 />
+543:                 <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', color: 'var(--text-secondary)' }}>Дата та час наступного дзвінка:</label>
+544:                 <input 
+545:                   type="datetime-local"
+546:                   value={pauseActivityDate} 
+547:                   onChange={e => setPauseActivityDate(e.target.value)}
+548:                   style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '16px' }}
+549:                 />
+550:                 
+551:                 <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', color: 'var(--text-secondary)' }}>Коментар до дзвінка:</label>
+552:                 <input 
+553:                   type="text"
+554:                   value={pauseActivityComment} 
+555:                   onChange={e => setPauseActivityComment(e.target.value)}
+556:                   style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '20px' }}
+557:                 />
+558: 
+559:                 <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '10px' }}>
+560:                   <button onClick={() => { setShowPauseConfirm(false); setPauseReason(''); setPauseEndDate(''); setPauseActivityDate(''); setPauseActivityComment('Дзвінок після паузи'); }} style={{ padding: '8px 20px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 600 }}>Скасувати</button>
+561:                   <button disabled={!pauseReason.trim() || !pauseEndDate} onClick={() => { setShowPauseConfirm(false); handlePause(); }} style={{ padding: '8px 20px', background: 'var(--accent-warning)', color: 'white', border: 'none', borderRadius: '6px', cursor: (!pauseReason.trim() || !pauseEndDate) ? 'not-allowed' : 'pointer', opacity: (!pauseReason.trim() || !pauseEndDate) ? 0.5 : 1, fontWeight: 600 }}>Підтвердити</button>
+562:                 </div>
+563:               </div>
+564:             </div>
+565:           )}
+566: 
+567:           {showCancelConfirm && (
+568:             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+569:               <div style={{ padding: '24px', background: 'var(--bg-panel)', border: '1px solid var(--danger-color)', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+570:                 <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: 'var(--danger-color)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+571:                   <AlertTriangle size={18} /> Скасування замовлення
+572:                 </h3>
+573:                 <p style={{ margin: '0 0 20px 0', fontSize: '14px', color: 'var(--text-primary)' }}>Ви впевнені, що хочете <strong>повністю скасувати</strong> це замовлення? Цю дію неможливо відмінити!</p>
+574:                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+575:                   <button onClick={() => setShowCancelConfirm(false)} style={{ padding: '8px 16px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 500 }}>Ні, повернутися</button>
+576:                   <button onClick={() => { setShowCancelConfirm(false); handleAction('CANCELLED'); }} style={{ padding: '8px 16px', background: 'var(--danger-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 500 }}>Так, скасувати</button>
+577:                 </div>
+578:               </div>
+579:             </div>
+580:           )}
+581: 
+582:           {showDeleteConfirm && (
+583:             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+584:               <div style={{ padding: '24px', background: 'var(--bg-panel)', border: '1px solid var(--danger-color)', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+585:                 <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: 'var(--danger-color)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+586:                   <AlertTriangle size={18} /> Видалення замовлення
+587:                 </h3>
+588:                 <p style={{ margin: '0 0 20px 0', fontSize: '14px', color: 'var(--text-primary)' }}>Ви впевнені, що хочете <strong>назавжди видалити</strong> це замовлення з бази даних? Цю дію неможливо відмінити!</p>
+589:                 <input 
+590:                   type="password" 
+591:                   placeholder="Введіть 6-значний ПІН-код"
+592:                   value={deletePin}
+593:                   onChange={e => setDeletePin(e.target.value)}
+594:                   style={{ width: '100%', marginBottom: '20px', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)' }}
+595:                 />
+596:                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+597:                   <button onClick={() => { setShowDeleteConfirm(false); setDeletePin(''); }} style={{ padding: '8px 16px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 500 }}>Ні, повернутися</button>
+598:                   <button onClick={() => { 
+599:                     if (deletePin !== '789078') { alert('Невірний ПІН-код'); return; }
+600:                     setShowDeleteConfirm(false); setDeletePin(''); handleDelete(); 
+601:                   }} style={{ padding: '8px 16px', background: 'var(--danger-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 500 }}>Так, видалити</button>
+602:                 </div>
+603:               </div>
+604:             </div>
+605:           )}
+606: 
+607:           
+608:       {taskToClose && (
+609:         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+610:           <div style={{ background: 'var(--bg-panel)', padding: '24px', borderRadius: 'var(--radius-lg)', width: '400px', maxWidth: '90%', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+611:             <h3 style={{ margin: 0 }}>Результат задачі: {taskToClose.title}</h3>
+612:             
+613:             <label style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '13px' }}>
+614:               Результат:
+615:               <select value={closeOutcome} onChange={e => setCloseOutcome(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)' }}>
+616:                 <option value="ANSWERED">Взяли слухавку</option>
+617:                 <option value="NO_ANSWER">Не взяли слухавку</option>
+618:                 <option value="REFUSED">Відмовились (Кинули слухавку)</option>
+619:                 <option value="RESCHEDULED">Попросили перетелефонувати</option>
+620:                 <option value="DONE">Вирішено / Інше</option>
+645:       {showCreateTask && (
+646:         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+647:           <div style={{ background: 'var(--bg-panel)', padding: '24px', borderRadius: 'var(--radius-lg)', width: '400px', maxWidth: '90%', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+648:             <h3 style={{ margin: 0 }}>Нова комунікація/задача</h3>
+649:             <div style={{ display: 'flex', gap: '8px' }}>
+650:               <select value={newTaskType} onChange={e => setNewTaskType(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)' }}>
+651:                 <option value="CALL">Дзвінок</option>
+652:                 <option value="SMS">SMS</option>
+653:                 <option value="EMAIL">Email</option>
+654:                 <option value="MEETING">Зустріч</option>
+655:                 <option value="INTERNAL_NOTE">Внутрішня задача</option>
+656:               </select>
+657:               <input type="text" value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Короткий заголовок" style={{ flex: 1, padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)' }} />
+658:             </div>
+659:             <input type="datetime-local" value={newTaskDate} onChange={e => setNewTaskDate(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)' }} />
+660:                 <option value="INTERNAL_NOTE">Внутрішня задача</option>
+661:               </select>
+662:             </div>
+663:             <input type="text" value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Короткий заголовок" style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)' }} />
+664:             <input type="datetime-local" value={newTaskDate} onChange={e => setNewTaskDate(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)' }} />
+665:             <textarea value={newTaskComment} onChange={e => setNewTaskComment(e.target.value)} rows={3} placeholder="Коментар..." style={{ padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', resize: 'none' }} />
+666:             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+667:               <button onClick={() => setShowCreateTask(false)} style={{ padding: '8px 16px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer' }}>Скасувати</button>
+668:               <button onClick={handleCreateTask} style={{ padding: '8px 16px', background: 'var(--accent-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>Зберегти</button>
+669:             </div>
+670:           </div>
+671:         </div>
+672:       )}
+673:   
+674:         </div>
+675:       </div>
+676:       {/* Timeline Progress Bar */}
+677:       <div style={{ display: 'flex', gap: '4px', margin: '24px 0', position: 'relative' }}>
+678:         {['MEASUREMENT_SCHEDULING', 'MEASUREMENT_SCHEDULED', 'IN_CONSTRUCT'].map((st, i) => {
+679:           const isActive = order.status === st;
+680:           const isPassed = ['MEASUREMENT_SCHEDULING', 'MEASUREMENT_SCHEDULED', 'IN_CONSTRUCT'].indexOf(order.status) > i;
+681:           
+682:           return (
+683:             <div key={st} style={{ flex: 1, height: '4px', background: isActive ? 'var(--accent-color)' : isPassed ? 'var(--accent-success)' : 'var(--bg-input)', borderRadius: '2px' }} title={STATUS_LABELS[st] || st} />
+684:           );
+685:         })}
+686:       </div>
+687: 
+688:       {pendingTasks.length > 0 && (
+689:               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+690:                 <h4 style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)' }}>Активні задачі</h4>
+691:                 {pendingTasks.map((t: any) => (
+692:                   <div key={t.id} style={{ padding: '12px', background: 'var(--bg-panel)', border: '1px solid var(--danger-color)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+693:                     <div>
+694:                       <div style={{ fontWeight: 600, fontSize: '13px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+695:                         <PhoneCall size={14} color="var(--danger-color)" />
+696:                         {t.title}
+697:                         {t.planned_at && <span style={{ color: 'var(--text-secondary)', fontWeight: 'normal', fontSize: '12px' }}>{format(new Date(t.planned_at), 'd MMM HH:mm', { locale: uk })}</span>}
+698:                       </div>
+699:                       <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+700:                         <span style={{ background: 'var(--bg-input)', padding: '2px 4px', borderRadius: '4px', marginRight: '6px' }}>Етап: {TASK_STAGE_LABELS[t.macro_stage] || t.macro_stage || 'Не вказано'}</span>
+701:                         Створено: {format(new Date(t.created_at), 'd MMM HH:mm', { locale: uk })} {t.creator?.full_name && `(${t.creator.full_name})`}
+702:                       </div>
+703:                       {t.comment && <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginTop: '4px' }}>{t.comment}</div>}
+704:                     </div>
+705:                     <button onClick={() => setTaskToClose(t)} style={{ padding: '6px 12px', background: 'var(--success-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Виконано</button>
+706:                   </div>
+707:                 ))}
+708:               </div>
+709:             )}
+710: 
+711:             {completedTasks.length > 0 && (
+712:               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
+713:                 <h4 style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)' }}>Історія комунікацій</h4>
+714:                 {completedTasks.map((t: any) => (
+715:                   <div key={t.id} style={{ padding: '12px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+716:                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+717:                       <span style={{ fontWeight: 600, fontSize: '13px', color: 'var(--text-primary)' }}>{t.title}</span>
+718:                       <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{t.completed_at ? format(new Date(t.completed_at), "d MMM, HH:mm", { locale: uk }) : 'Без дати'}</span>
+719:                     </div>
+720:                     <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+721:                       <span>Етап: {TASK_STAGE_LABELS[t.macro_stage] || t.macro_stage || 'Не вказано'}</span>
+722:                       <span>Створено: {format(new Date(t.created_at), 'd MMM HH:mm', { locale: uk })} {t.creator?.full_name && `(${t.creator.full_name})`}</span>
+723:                       {t.completed_at && <span>Закрито: {t.completer?.full_name || ''}</span>}
+724:                     </div>
+725:                     <div style={{ fontSize: '12px', marginTop: '6px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+726:                       <span style={{ background: t.status === 'CANCELLED' ? 'var(--danger-color)' : 'var(--success-color)', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>
+727:                         {t.status === 'CANCELLED' ? 'СКАСОВАНО' : (t.outcome || 'ВИКОНАНО')}
+728:                       </span>
+729:                       {t.outcome_notes && <span style={{ color: 'var(--text-primary)' }}>{t.outcome_notes}</span>}
+730:                     </div>
+731:                   </div>
+732:                 ))}
+733:               </div>
+734:             )}
+735: 
+736:             {pendingTasks.length === 0 && completedTasks.length === 0 && (
+737:               <div style={{ color: 'var(--text-tertiary)', fontSize: '13px', textAlign: 'center', padding: '24px' }}>Немає активностей</div>
+738:             )}
+739:           </div>
+740:         )}
+741: 
+742:         {activeTab === 'Специфікація' && (
+743:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+744:             <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Виріб</h3>
+745:             <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '8px', fontSize: '14px' }}>
+746:               <span style={{ color: 'var(--text-secondary)' }}>Матеріал:</span>
+747:               <span style={{ color: 'var(--text-primary)' }}>{spec.material_type || '—'}</span>
+748:               <span style={{ color: 'var(--text-secondary)' }}>Орієнтовна площа:</span>
+749:               <span style={{ color: 'var(--text-primary)' }}>{spec.area_sqm ? `${spec.area_sqm} м²` : '—'}</span>
+750:             </div>
+751:           </div>
+752:         )}
+753:         
+754:         {activeTab === 'Фінанси' && (
+755:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+756:             <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Оплата</h3>
+757:             <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '8px', fontSize: '14px' }}>
+758:               <span style={{ color: 'var(--text-secondary)' }}>Сума (орієнтовна):</span>
+759:               <span style={{ color: 'var(--text-primary)' }}>{spec.total_amount ? `${spec.total_amount} ₴` : '—'}</span>
+760:               <span style={{ color: 'var(--text-secondary)' }}>% оплати:</span>
+761:               <span style={{ color: 'var(--text-primary)' }}>{order.payment_percent || 0}%</span>
+762:               <span style={{ color: 'var(--text-secondary)' }}>Кредит:</span>
+763:               <span style={{ color: 'var(--text-primary)' }}>{order.is_credit ? 'Так' : 'Ні'}</span>
+764:               <span style={{ color: 'var(--text-secondary)' }}>Джерело оплати:</span>
+765:               <span style={{ color: 'var(--text-primary)' }}>{order.payment_source || '—'}</span>
+766:             </div>
+767:           </div>
+768:         )}
+769: 
+770:         {activeTab === 'Історія' && (
+771:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+772:             <h3 style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Історія статусів</h3>
+773:             
+774:             {history.length === 0 ? (
+775:               <div style={{ color: 'var(--text-tertiary)', fontSize: '13px' }}>Історія порожня</div>
+776:             ) : (
+777:               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
+778:                 <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: 'var(--border-color)', zIndex: 0 }} />
+779:                 
+780:                 {history.map((h, i) => {
+781:                   const isLatest = i === 0;
+782:                   return (
+783:                     <div key={h.id} style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 1 }}>
+784:                       <div style={{ 
+785:                         width: '32px', height: '32px', borderRadius: '50%', 
+786:                         background: isLatest ? 'var(--accent-color)' : 'var(--bg-input)',
+787:                         border: `2px solid ${isLatest ? 'var(--accent-color)' : 'var(--border-color)'}`,
+788:                         display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+789:                       }}>
+790:                         {isLatest ? <Clock size={14} color="white" /> : <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--text-tertiary)' }} />}
+791:                       </div>
+792:                       
+793:                       <div style={{ flex: 1, padding: '12px', background: 'var(--bg-input)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+794:                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+795:                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+796:                             {h.from_status && (
+797:                               <>
+798:                                 <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{STATUS_LABELS[h.from_status] || h.from_status}</span>
+799:                                 <ArrowRight size={12} color="var(--text-tertiary)" />
+800:                               </>
+801:                             )}
+802:                             <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+803:                               {STATUS_LABELS[h.to_status] || h.to_status}
+804:                             </span>
+805:                           </div>
+806:                           <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+807:                             {format(new Date(h.changed_at), 'd MMM yyyy, HH:mm', { locale: uk })}
+808:                           </span>
+809:                         </div>
+810:                         
+811:                         {(h.reason || h.source) && (
+812:                           <div style={{ display: 'flex', gap: '12px', marginTop: '6px', fontSize: '12px' }}>
+813:                             {h.source && <span style={{ color: 'var(--text-tertiary)' }}>Джерело: <span style={{ color: 'var(--text-secondary)' }}>{h.source}</span></span>}
+814:                             {h.reason && <span style={{ color: 'var(--danger-color)' }}>Причина: {h.reason}</span>}
+815:                           </div>
+816:                         )}
+817:                       </div>
+818:                     </div>
+819:                   );
+820:                 })}
+821:               </div>
+822:             )}
+823:           </div>
+824:         )}
+825: 
+826:       </div>
+827:     </div>
+828:   );
+829: }
+830: 
+831:                       </div>
+832:                     </div>
+833:                   ))}
+834:                 </div>
+835:               </div>
+836:             </div>
+837:           </div>
+838: 
+839:         {activeTab === 'Логістика' && (
+840:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+841:             <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Локація об'єкту та Планування</h3>
+842:             <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '8px', fontSize: '14px' }}>
+843:               <span style={{ color: 'var(--text-secondary)' }}>Місто:</span>
+844:               <span style={{ color: 'var(--text-primary)' }}>{address.city || '—'}</span>
+845:               <span style={{ color: 'var(--text-secondary)' }}>Вулиця:</span>
+846:               <span style={{ color: 'var(--text-primary)' }}>{address.street || '—'}</span>
+847:               <span style={{ color: 'var(--text-secondary)' }}>Будинок:</span>
+848:               <span style={{ color: 'var(--text-primary)' }}>{address.building || '—'}</span>
+849:               <span style={{ color: 'var(--text-secondary)' }}>Філія:</span>
+850:               <span style={{ color: 'var(--text-primary)' }}>{order.branches?.name || '—'}</span>
+851:                    <span style={{ color: 'var(--accent-color)', fontWeight: 600 }}>{activeMeasTask.profiles?.full_name || 'Без замірника'}</span>
+852:                    <span style={{ color: 'var(--text-secondary)' }}>Дата заміру:</span>
+853:                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{activeMeasTask.scheduled_date}</span>
+854:                    <span style={{ color: 'var(--text-secondary)' }}>Час:</span>
+855:                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{activeMeasTask.start_time.slice(0,5)} - {activeMeasTask.end_time.slice(0,5)}</span>
+856:                    {departurePoint && (
+857:                      <>
+858:                        <span style={{ color: 'var(--text-secondary)' }}>Виїзд з:</span>
+859:                        <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{departurePoint}</span>
+860:                      </>
+861:                    )}
+862:                 </>
+863:               )}
+864:             </div>
+865:           </div>
+866:         )}
+867: 
+868:         
+869:         {activeTab === 'Комунікація' && (
+870:           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+871:             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+872:               <h3 style={{ margin: 0, fontSize: '16px', color: 'var(--text-primary)' }}>Комунікація</h3>
+873:               <button onClick={() => setShowCreateTask(true)} style={{ background: 'var(--accent-color)', color: 'white', border: 'none', borderRadius: '6px', padding: '6px 16px', fontWeight: 600, cursor: 'pointer', fontSize: '13px' }}>
+874:                 + Нова активність
+875:               </button>
+876:             </div>
+877: 
+878:             {pendingTasks.length > 0 && (
+879:               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+880:                 <h4 style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)' }}>Заплановані (Pending)</h4>
+881:                 {pendingTasks.map((t: any) => (
+882:                   <div key={t.id} style={{ padding: '12px', background: '#fefce8', border: '1px solid #fef08a', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+883:                     <div>
+884:                       <div style={{ fontWeight: 600, fontSize: '14px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+885:                          {t.title}
+886:                          <span style={{ fontSize: '10px', background: '#eab308', color: 'white', padding: '2px 6px', borderRadius: '4px' }}>{t.activity_type}</span>
+887:                       </div>
+888:                       <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+889:                         <Clock size={12} /> {format(new Date(t.planned_at), "d MMM, HH:mm", { locale: uk })}
+890:                       </div>
+891:                       {t.comment && <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px', fontStyle: 'italic' }}>{t.comment}</div>}
+892:                     </div>
+893:                     <button onClick={() => setTaskToClose(t)} style={{ padding: '6px 12px', background: 'var(--success-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Виконано</button>
+894:                   </div>
+895:                 ))}
+896:               </div>
+897:             )}
+898: 
+899:             {completedTasks.length > 0 && (
+900:               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
+901:                 <h4 style={{ margin: 0, fontSize: '14px', color: 'var(--text-secondary)' }}>Історія комунікацій</h4>
+902:                 {completedTasks.map((t: any) => (
+903:                   <div key={t.id} style={{ padding: '12px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
+904:                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+905:                       <span style={{ fontWeight: 600, fontSize: '13px', color: 'var(--text-primary)' }}>{t.title}</span>
+906:                       <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{t.completed_at ? format(new Date(t.completed_at), "d MMM, HH:mm", { locale: uk }) : 'Без дати'}</span>
+907:                     </div>
+908:                     <div style={{ fontSize: '12px', marginTop: '4px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+909:                       <span style={{ background: t.status === 'CANCELLED' ? 'var(--danger-color)' : 'var(--success-color)', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>
+910:                         {t.status === 'CANCELLED' ? 'СКАСОВАНО' : (t.outcome || 'ВИКОНАНО')}
+911:                       </span>
+912:                       {t.outcome_notes && <span style={{ color: 'var(--text-secondary)' }}>{t.outcome_notes}</span>}
+913:                     </div>
+914:                   </div>
+915:                 ))}
+916:               </div>
+917:             )}
+918: 
+919:             {pendingTasks.length === 0 && completedTasks.length === 0 && (
+920:               <div style={{ color: 'var(--text-tertiary)', fontSize: '13px', textAlign: 'center', padding: '24px' }}>Немає активностей</div>
+921:             )}
+922:           </div>
+923:         )}
+924: 
+925:         {activeTab === 'Специфікація' && (
+926:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+927:             <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Виріб</h3>
+928:             <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '8px', fontSize: '14px' }}>
+929:               <span style={{ color: 'var(--text-secondary)' }}>Матеріал:</span>
+930:               <span style={{ color: 'var(--text-primary)' }}>{spec.material_type || '—'}</span>
+931:               <span style={{ color: 'var(--text-secondary)' }}>Орієнтовна площа:</span>
+932:               <span style={{ color: 'var(--text-primary)' }}>{spec.area_sqm ? `${spec.area_sqm} м²` : '—'}</span>
+933:             </div>
+934:           </div>
+935:         )}
+936:         
+937:         {activeTab === 'Фінанси' && (
+938:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+939:             <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Оплата</h3>
+940:             <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '8px', fontSize: '14px' }}>
+941:               <span style={{ color: 'var(--text-secondary)' }}>Сума (орієнтовна):</span>
+942:               <span style={{ color: 'var(--text-primary)' }}>{spec.total_amount ? `${spec.total_amount} ₴` : '—'}</span>
+943:               <span style={{ color: 'var(--text-secondary)' }}>% оплати:</span>
+944:               <span style={{ color: 'var(--text-primary)' }}>{order.payment_percent || 0}%</span>
+945:               <span style={{ color: 'var(--text-secondary)' }}>Кредит:</span>
+946:               <span style={{ color: 'var(--text-primary)' }}>{order.is_credit ? 'Так' : 'Ні'}</span>
+947:               <span style={{ color: 'var(--text-secondary)' }}>Джерело оплати:</span>
+948:               <span style={{ color: 'var(--text-primary)' }}>{order.payment_source || '—'}</span>
+949:             </div>
+950:           </div>
+951:         )}
+952: 
+953:         {activeTab === 'Історія' && (
+954:           <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+955:             <h3 style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Історія статусів</h3>
+956:             
+957:             {history.length === 0 ? (
+958:               <div style={{ color: 'var(--text-tertiary)', fontSize: '13px' }}>Історія порожня</div>
+959:             ) : (
+960:               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
+961:                 <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: 'var(--border-color)', zIndex: 0 }} />
+962:                 
+963:                 {history.map((h, i) => {
+964:                   const isLatest = i === 0;
+965:                   return (
+966:                     <div key={h.id} style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 1 }}>
+967:                       <div style={{ 
+968:                         width: '32px', height: '32px', borderRadius: '50%', 
+969:                         background: isLatest ? 'var(--accent-color)' : 'var(--bg-input)',
+970:                         border: `2px solid ${isLatest ? 'var(--accent-color)' : 'var(--border-color)'}`,
+971:                         display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+972:                       }}>
+973:                         {isLatest ? <Clock size={14} color="white" /> : <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--text-tertiary)' }} />}
+974:                       </div>
+975:                       
+976:                       <div style={{ flex: 1, padding: '12px', background: 'var(--bg-input)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+977:                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+978:                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+979:                             {h.from_status && (
+980:                               <>
+981:                                 <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{STATUS_LABELS[h.from_status] || h.from_status}</span>
+982:                                 <ArrowRight size={12} color="var(--text-tertiary)" />
+983:                               </>
+984:                             )}
+985:                             <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+986:                               {STATUS_LABELS[h.to_status] || h.to_status}
+987:                             </span>
+988:                           </div>
+989:                           <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+990:                             {format(new Date(h.changed_at), 'd MMM yyyy, HH:mm', { locale: uk })}
+991:                           </span>
+992:                         </div>
+993:                         
+994:                         {(h.reason || h.source) && (
+995:                           <div style={{ display: 'flex', gap: '12px', marginTop: '6px', fontSize: '12px' }}>
+996:                             {h.source && <span style={{ color: 'var(--text-tertiary)' }}>Джерело: <span style={{ color: 'var(--text-secondary)' }}>{h.source}</span></span>}
+997:                             {h.reason && <span style={{ color: 'var(--danger-color)' }}>Причина: {h.reason}</span>}
+998:                           </div>
+999:                         )}
+1000:                       </div>
+1001:                     </div>
+1002:                   );
+1003:                 })}
+1004:               </div>
+1005:             )}
+1006:           </div>
+1007:         )}
+1008: 
+1009:       </div>
+1010:     </div>
+1011:   );
+1012: }
+1013: 

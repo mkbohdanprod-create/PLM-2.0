@@ -1,0 +1,2 @@
+-- This migration file has been intentionally cleared to prevent seeding test orders
+-- as per user request: "При міграції не створюй ніякі нові замовлення"

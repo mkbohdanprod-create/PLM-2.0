@@ -1,0 +1,221 @@
+--- ACTUAL STATUSES IN DB ---
+CANCELLED, CLIENT_APPROVAL, COMPLETED, DELIVERY_IN_TRANSIT, DELIVERY_SCHEDULING, ENGINEERING_IN_PROGRESS, ENGINEERING_NESTING, ENGINEERING_QUEUE, IN_PRODUCTION, INSTALLATION_COMPLETED, INSTALLATION_FAILED, INSTALLATION_FINISHED_ON_SITE, INSTALLATION_IN_PROGRESS, INSTALLATION_RECLAMATION, INSTALLATION_SCHEDULED, INSTALLATION_SCHEDULING, MEASUREMENT_CANCELED_BY_MEASURER, MEASUREMENT_COMPLETED, MEASUREMENT_FAILED, MEASUREMENT_FINISHED_ON_SITE, MEASUREMENT_IN_PROGRESS, MEASUREMENT_PRE_SCHEDULED, MEASUREMENT_SCHEDULED, MEASUREMENT_SCHEDULING, PAUSED, PRODUCTION_COMPLETED, PRODUCTION_QUEUE, READY_FOR_PICKUP
+
+--- MACRO STAGE LOGIC ---
+--- TABLES & COLUMNS ---
+Table: orders
+  id: uuid
+  order_number: text
+  branch_id: uuid
+  status: text
+  version: integer
+  locked_by: uuid
+  lock_expires_at: timestamp with time zone
+  is_hidden: boolean
+  cancel_reason_text: text
+  created_at: timestamp with time zone
+  updated_at: timestamp with time zone
+  order_type: text
+  payment_percent: numeric
+  is_credit: boolean
+  payment_updated_at: timestamp with time zone
+  payment_source: text
+  parent_order_id: uuid
+  external_id: text
+  is_incomplete: boolean
+  cancel_reason_id: uuid
+  pause_reason_id: uuid
+  resume_date: date
+  entered_measurement_pool_at: timestamp with time zone
+  document_date: date
+  base_readiness_date: date
+  payment_date: date
+  calc_readiness_date: date
+  planned_call_date: timestamp with time zone
+  call_comment: text
+  previous_status: text
+  internal_target_date: date
+  delivery_method: text
+  macro_stage: text
+  is_reclamation_frozen: boolean
+
+Table: profiles
+  id: uuid
+  full_name: text
+  role_code: text
+  branch_id: uuid
+  is_active: boolean
+  created_at: timestamp with time zone
+  updated_at: timestamp with time zone
+  allowed_view_regions: ARRAY
+  allowed_action_regions: ARRAY
+  color: text
+  base_lat: numeric
+  base_lng: numeric
+  default_filters: jsonb
+
+Table: order_status_history
+  id: uuid
+  order_id: uuid
+  from_status: text
+  to_status: text
+  changed_at: timestamp with time zone
+  changed_by: uuid
+  source: text
+  reason: text
+  reason_id: uuid
+  metadata: jsonb
+
+Table: engineering_tasks
+  id: uuid
+  order_id: uuid
+  assigned_to: uuid
+  specialization_type: text
+  status: text
+  area_sqm: numeric
+  created_by: uuid
+  created_at: timestamp with time zone
+  updated_at: timestamp with time zone
+  completed_at: timestamp with time zone
+
+Table: measurement_tasks
+  id: uuid
+  order_id: uuid
+  measurer_id: uuid
+  scheduled_date: date
+  start_time: time without time zone
+  end_time: time without time zone
+  estimated_travel_time_mins: integer
+  created_at: timestamp with time zone
+  actual_start_time: timestamp with time zone
+  actual_end_time: timestamp with time zone
+  outcome: text
+  failure_reason: text
+
+Table: delivery_tasks
+  id: uuid
+  order_id: uuid
+  driver_id: uuid
+  vehicle_id: uuid
+  scheduled_date: timestamp with time zone
+  outcome: text
+  route_order: integer
+  created_at: timestamp with time zone
+  updated_at: timestamp with time zone
+
+Table: order_activities
+  id: uuid
+  order_id: uuid
+  title: text
+  activity_type: USER-DEFINED
+  planned_at: timestamp with time zone
+  comment: text
+  status: text
+  outcome: USER-DEFINED
+  outcome_notes: text
+  assigned_to_role: text
+  created_by: uuid
+  completed_by: uuid
+  created_at: timestamp with time zone
+  completed_at: timestamp with time zone
+
+Table: status_transitions
+  id: integer
+  from_status: text
+  to_status: text
+  allowed_roles: ARRAY
+
+--- RPCs ---
+log_changes()
+lock_order(order_id uuid)
+prevent_self_escalation()
+resume_order(p_order_id uuid)
+unassign_measurement(p_order_id uuid)
+get_allowed_transitions(p_order_id uuid)
+pause_order(p_order_id uuid, p_reason_id uuid, p_resume_date date DEFAULT NULL::date)
+handle_new_user()
+unlock_order(order_id uuid)
+check_order_duplicates(p_full_name text, p_phone text, p_city text, p_street text, p_building text)
+normalize_phone()
+get_user_role()
+get_user_branch()
+can_access_order(p_order_id uuid)
+get_user_allowed_view_regions()
+get_user_allowed_action_regions()
+update_order_incomplete_status()
+set_default_profile_regions()
+check_is_incomplete()
+protect_system_records()
+set_engineering_tasks_updated_at()
+check_valid_order_status()
+create_communication_task(p_order_id uuid, p_title text, p_planned_call_date timestamp with time zone, p_comment text)
+complete_communication_task(p_task_id uuid)
+update_order_resume_date(p_order_id uuid, p_resume_date timestamp with time zone)
+hide_order(p_order_id uuid, p_reason text)
+upsert_worker_schedule(p_profile_id uuid, p_work_date date, p_status text, p_start_time time without time zone, p_end_time time without time zone)
+delete_worker_schedule(p_profile_id uuid, p_work_date date)
+create_region(p_name text)
+update_region(p_id uuid, p_name text)
+hide_region(p_id uuid)
+create_branch(p_name text, p_region_id uuid)
+update_engineering_task_status(p_task_id uuid, p_status text)
+update_order_dates(p_order_id uuid, p_document_date date DEFAULT NULL::date, p_base_readiness_date date DEFAULT NULL::date, p_payment_date date DEFAULT NULL::date, p_calc_readiness_date date DEFAULT NULL::date)
+create_order(p_external_id text, p_branch_id uuid, p_order_type text, p_full_name text, p_phone text, p_city text, p_street text DEFAULT NULL::text, p_building text DEFAULT NULL::text, p_material text DEFAULT NULL::text, p_area numeric DEFAULT NULL::numeric, p_force boolean DEFAULT false, p_lat numeric DEFAULT NULL::numeric, p_lng numeric DEFAULT NULL::numeric, p_document_date date DEFAULT NULL::date, p_base_readiness_date date DEFAULT NULL::date, p_payment_date date DEFAULT NULL::date, p_calc_readiness_date date DEFAULT NULL::date)
+update_branch(p_id uuid, p_name text, p_region_id uuid)
+hide_branch(p_id uuid)
+update_role_permissions(p_code text, p_name_ua text)
+update_employee_profile(p_id uuid, p_full_name text, p_role_code text, p_branch_id uuid, p_department_id uuid, p_phone text, p_email text, p_work_status text)
+update_default_filters(p_id uuid, p_filters jsonb)
+update_employee_profile(p_id uuid, p_role_code text, p_is_active boolean, p_branch_id uuid, p_color text, p_base_lat numeric, p_base_lng numeric, p_allowed_view_regions text[], p_allowed_action_regions text[])
+activate_employee(p_id uuid)
+deactivate_employee(p_id uuid)
+assign_engineer(p_task_id uuid, p_assigned_to uuid)
+create_order(p_external_id text, p_branch_id uuid, p_order_type text, p_full_name text, p_phone text, p_city text, p_street text DEFAULT NULL::text, p_building text DEFAULT NULL::text, p_material text DEFAULT NULL::text, p_area numeric DEFAULT NULL::numeric, p_force boolean DEFAULT false)
+assign_measurement(p_order_id uuid, p_measurer_id uuid, p_date date, p_start_time time without time zone, p_end_time time without time zone, p_estimated_travel_time integer DEFAULT 0)
+update_planned_call(p_order_id uuid, p_date timestamp with time zone, p_comment text)
+change_order_status(p_order_id uuid, p_new_status text, p_reason text DEFAULT NULL::text, p_reason_id uuid DEFAULT NULL::uuid, p_planned_call_date timestamp with time zone DEFAULT NULL::timestamp with time zone, p_call_comment text DEFAULT NULL::text)
+appsheet_webhook_update(p_idempotency_key uuid, p_task_id uuid, p_new_status text, p_lat numeric, p_lng numeric, p_comment text, p_timestamp timestamp with time zone)
+create_vehicle(p_name text, p_plate_number text, p_branch_id uuid)
+update_vehicle(p_vehicle_id uuid, p_name text, p_plate_number text)
+hide_vehicle(p_vehicle_id uuid)
+assign_delivery(p_order_id uuid, p_driver_id uuid, p_vehicle_id uuid, p_scheduled_date timestamp with time zone, p_route_order integer DEFAULT NULL::integer)
+unassign_delivery(p_order_id uuid)
+trg_auto_call_delivery()
+update_engineering_task_status(p_task_id uuid, p_status text, p_next_order_status text DEFAULT NULL::text)
+trg_auto_create_engineering_task()
+create_reclamation(p_parent_order_id uuid, p_reason text, p_reclamation_type text, p_return_to_stage text, p_source text, p_idempotency_key uuid DEFAULT gen_random_uuid())
+reclamation_unfreeze_parent()
+
+--- TRIGGERS ---
+audit_orders_changes ON orders (INSERT) -> EXECUTE FUNCTION log_changes()
+audit_orders_changes ON orders (DELETE) -> EXECUTE FUNCTION log_changes()
+audit_orders_changes ON orders (UPDATE) -> EXECUTE FUNCTION log_changes()
+audit_profiles_changes ON profiles (INSERT) -> EXECUTE FUNCTION log_changes()
+audit_profiles_changes ON profiles (DELETE) -> EXECUTE FUNCTION log_changes()
+audit_profiles_changes ON profiles (UPDATE) -> EXECUTE FUNCTION log_changes()
+audit_branches_changes ON branches (INSERT) -> EXECUTE FUNCTION log_changes()
+audit_branches_changes ON branches (DELETE) -> EXECUTE FUNCTION log_changes()
+audit_branches_changes ON branches (UPDATE) -> EXECUTE FUNCTION log_changes()
+audit_regions_changes ON regions (INSERT) -> EXECUTE FUNCTION log_changes()
+audit_regions_changes ON regions (DELETE) -> EXECUTE FUNCTION log_changes()
+audit_regions_changes ON regions (UPDATE) -> EXECUTE FUNCTION log_changes()
+trg_normalize_phone ON order_contacts (INSERT) -> EXECUTE FUNCTION normalize_phone()
+trg_normalize_phone ON order_contacts (UPDATE) -> EXECUTE FUNCTION normalize_phone()
+prevent_self_escalation_trigger ON profiles (UPDATE) -> EXECUTE FUNCTION prevent_self_escalation()
+set_default_profile_regions_trigger ON profiles (INSERT) -> EXECUTE FUNCTION set_default_profile_regions()
+set_default_profile_regions_trigger ON profiles (UPDATE) -> EXECUTE FUNCTION set_default_profile_regions()
+trg_set_is_incomplete ON orders (INSERT) -> EXECUTE FUNCTION check_is_incomplete()
+trg_set_is_incomplete ON orders (UPDATE) -> EXECUTE FUNCTION check_is_incomplete()
+trg_protect_materials ON materials (DELETE) -> EXECUTE FUNCTION protect_system_records()
+trg_protect_decors ON decors (DELETE) -> EXECUTE FUNCTION protect_system_records()
+trg_protect_pause_reasons ON pause_reasons (DELETE) -> EXECUTE FUNCTION protect_system_records()
+trg_protect_brigades ON brigades (DELETE) -> EXECUTE FUNCTION protect_system_records()
+trg_protect_task_types ON task_types (DELETE) -> EXECUTE FUNCTION protect_system_records()
+trg_protect_cancel_reasons ON cancel_reasons (DELETE) -> EXECUTE FUNCTION protect_system_records()
+trigger_engineering_tasks_updated_at ON engineering_tasks (UPDATE) -> EXECUTE FUNCTION set_engineering_tasks_updated_at()
+check_order_status_trigger ON orders (INSERT) -> EXECUTE FUNCTION check_valid_order_status()
+check_order_status_trigger ON orders (UPDATE) -> EXECUTE FUNCTION check_valid_order_status()
+trigger_auto_call_delivery ON orders (UPDATE) -> EXECUTE FUNCTION trg_auto_call_delivery()
+trg_auto_create_engineering_task ON orders (UPDATE) -> EXECUTE FUNCTION trg_auto_create_engineering_task()
+trg_reclamation_unfreeze_parent_update ON orders (UPDATE) -> EXECUTE FUNCTION reclamation_unfreeze_parent()
+

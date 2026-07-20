@@ -1,0 +1,4023 @@
+{
+  "tables": [
+    {
+      "name": "audit_logs",
+      "count": "265"
+    },
+    {
+      "name": "branches",
+      "count": "8"
+    },
+    {
+      "name": "brigades",
+      "count": "0"
+    },
+    {
+      "name": "cancel_reasons",
+      "count": "4"
+    },
+    {
+      "name": "communication_tasks",
+      "count": "0"
+    },
+    {
+      "name": "decors",
+      "count": "4"
+    },
+    {
+      "name": "delivery_tasks",
+      "count": "0"
+    },
+    {
+      "name": "engineering_tasks",
+      "count": "1"
+    },
+    {
+      "name": "materials",
+      "count": "9"
+    },
+    {
+      "name": "measurement_tasks",
+      "count": "8"
+    },
+    {
+      "name": "order_activities",
+      "count": "0"
+    },
+    {
+      "name": "order_addresses",
+      "count": "6"
+    },
+    {
+      "name": "order_contacts",
+      "count": "6"
+    },
+    {
+      "name": "order_specifications",
+      "count": "5"
+    },
+    {
+      "name": "order_status_history",
+      "count": "16"
+    },
+    {
+      "name": "orders",
+      "count": "6"
+    },
+    {
+      "name": "pause_reasons",
+      "count": "5"
+    },
+    {
+      "name": "profiles",
+      "count": "9"
+    },
+    {
+      "name": "regions",
+      "count": "4"
+    },
+    {
+      "name": "roles",
+      "count": "8"
+    },
+    {
+      "name": "settings",
+      "count": "3"
+    },
+    {
+      "name": "status_required_fields",
+      "count": "4"
+    },
+    {
+      "name": "status_transitions",
+      "count": "79"
+    },
+    {
+      "name": "task_types",
+      "count": "5"
+    },
+    {
+      "name": "vehicles",
+      "count": "4"
+    },
+    {
+      "name": "webhook_events",
+      "count": "0"
+    },
+    {
+      "name": "worker_schedules",
+      "count": "30"
+    }
+  ],
+  "orders_structure": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "column_name": "order_number",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "column_name": "branch_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'MEASUREMENT_SCHEDULING'::text"
+    },
+    {
+      "column_name": "version",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "column_name": "locked_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "lock_expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "is_hidden",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "column_name": "cancel_reason_text",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": "now()"
+    },
+    {
+      "column_name": "order_type",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": "'FULL_CYCLE'::text"
+    },
+    {
+      "column_name": "payment_percent",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": "0"
+    },
+    {
+      "column_name": "is_credit",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    },
+    {
+      "column_name": "payment_updated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "payment_source",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "parent_order_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "external_id",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "is_incomplete",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "column_name": "cancel_reason_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "pause_reason_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "resume_date",
+      "data_type": "date",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "entered_measurement_pool_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "document_date",
+      "data_type": "date",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "base_readiness_date",
+      "data_type": "date",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "payment_date",
+      "data_type": "date",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "calc_readiness_date",
+      "data_type": "date",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "planned_call_date",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "call_comment",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "previous_status",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "internal_target_date",
+      "data_type": "date",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "delivery_method",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": "'DELIVERY'::text"
+    },
+    {
+      "column_name": "macro_stage",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "column_name": "is_reclamation_frozen",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": "false"
+    }
+  ],
+  "status_transitions": [
+    {
+      "id": 29,
+      "from_status": "CLIENT_APPROVAL",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 123,
+      "from_status": "CLIENT_APPROVAL",
+      "to_status": "ENGINEERING_IN_PROGRESS",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER",
+        "BRANCH_MANAGER"
+      ]
+    },
+    {
+      "id": 124,
+      "from_status": "CLIENT_APPROVAL",
+      "to_status": "ENGINEERING_NESTING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER",
+        "BRANCH_MANAGER"
+      ]
+    },
+    {
+      "id": 129,
+      "from_status": "CLIENT_APPROVAL",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 85,
+      "from_status": "CLIENT_APPROVAL",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "CONSTRUCTOR"
+      ]
+    },
+    {
+      "id": 26,
+      "from_status": "CLIENT_APPROVAL",
+      "to_status": "PRODUCTION_QUEUE",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "BRANCH_MANAGER"
+      ]
+    },
+    {
+      "id": 117,
+      "from_status": "DELIVERY_IN_TRANSIT",
+      "to_status": "COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 118,
+      "from_status": "DELIVERY_IN_TRANSIT",
+      "to_status": "DELIVERY_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 116,
+      "from_status": "DELIVERY_IN_TRANSIT",
+      "to_status": "INSTALLATION_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 98,
+      "from_status": "DELIVERY_IN_TRANSIT",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 114,
+      "from_status": "DELIVERY_SCHEDULING",
+      "to_status": "DELIVERY_IN_TRANSIT",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 97,
+      "from_status": "DELIVERY_SCHEDULING",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 121,
+      "from_status": "ENGINEERING_IN_PROGRESS",
+      "to_status": "CLIENT_APPROVAL",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 122,
+      "from_status": "ENGINEERING_IN_PROGRESS",
+      "to_status": "ENGINEERING_NESTING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 127,
+      "from_status": "ENGINEERING_IN_PROGRESS",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 84,
+      "from_status": "ENGINEERING_IN_PROGRESS",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "CONSTRUCTOR"
+      ]
+    },
+    {
+      "id": 25,
+      "from_status": "ENGINEERING_NESTING",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 22,
+      "from_status": "ENGINEERING_NESTING",
+      "to_status": "CLIENT_APPROVAL",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 128,
+      "from_status": "ENGINEERING_NESTING",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 86,
+      "from_status": "ENGINEERING_NESTING",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "CONSTRUCTOR"
+      ]
+    },
+    {
+      "id": 23,
+      "from_status": "ENGINEERING_NESTING",
+      "to_status": "PRODUCTION_QUEUE",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 125,
+      "from_status": "ENGINEERING_NESTING",
+      "to_status": "PRODUCTION_QUEUE",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 120,
+      "from_status": "ENGINEERING_QUEUE",
+      "to_status": "ENGINEERING_IN_PROGRESS",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 126,
+      "from_status": "ENGINEERING_QUEUE",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER"
+      ]
+    },
+    {
+      "id": 83,
+      "from_status": "ENGINEERING_QUEUE",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "CONSTRUCTOR"
+      ]
+    },
+    {
+      "id": 88,
+      "from_status": "IN_PRODUCTION",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN"
+      ]
+    },
+    {
+      "id": 33,
+      "from_status": "IN_PRODUCTION",
+      "to_status": "PRODUCTION_COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN"
+      ]
+    },
+    {
+      "id": 94,
+      "from_status": "INSTALLATION_COMPLETED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 111,
+      "from_status": "INSTALLATION_FAILED",
+      "to_status": "INSTALLATION_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 95,
+      "from_status": "INSTALLATION_FAILED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 109,
+      "from_status": "INSTALLATION_FINISHED_ON_SITE",
+      "to_status": "INSTALLATION_COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "INSTALLER"
+      ]
+    },
+    {
+      "id": 93,
+      "from_status": "INSTALLATION_FINISHED_ON_SITE",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 108,
+      "from_status": "INSTALLATION_IN_PROGRESS",
+      "to_status": "INSTALLATION_FINISHED_ON_SITE",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "INSTALLER"
+      ]
+    },
+    {
+      "id": 130,
+      "from_status": "INSTALLATION_IN_PROGRESS",
+      "to_status": "INSTALLATION_RECLAMATION",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER",
+        "INSTALLER"
+      ]
+    },
+    {
+      "id": 92,
+      "from_status": "INSTALLATION_IN_PROGRESS",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 131,
+      "from_status": "INSTALLATION_RECLAMATION",
+      "to_status": "INSTALLATION_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 96,
+      "from_status": "INSTALLATION_RECLAMATION",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 44,
+      "from_status": "INSTALLATION_SCHEDULED",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 41,
+      "from_status": "INSTALLATION_SCHEDULED",
+      "to_status": "COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 110,
+      "from_status": "INSTALLATION_SCHEDULED",
+      "to_status": "INSTALLATION_FAILED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 107,
+      "from_status": "INSTALLATION_SCHEDULED",
+      "to_status": "INSTALLATION_IN_PROGRESS",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "INSTALLER"
+      ]
+    },
+    {
+      "id": 42,
+      "from_status": "INSTALLATION_SCHEDULED",
+      "to_status": "INSTALLATION_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 91,
+      "from_status": "INSTALLATION_SCHEDULED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 40,
+      "from_status": "INSTALLATION_SCHEDULING",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 38,
+      "from_status": "INSTALLATION_SCHEDULING",
+      "to_status": "INSTALLATION_SCHEDULED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 90,
+      "from_status": "INSTALLATION_SCHEDULING",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 105,
+      "from_status": "MEASUREMENT_CANCELED_BY_MEASURER",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 82,
+      "from_status": "MEASUREMENT_CANCELED_BY_MEASURER",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 17,
+      "from_status": "MEASUREMENT_COMPLETED",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 119,
+      "from_status": "MEASUREMENT_COMPLETED",
+      "to_status": "ENGINEERING_QUEUE",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 15,
+      "from_status": "MEASUREMENT_COMPLETED",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 80,
+      "from_status": "MEASUREMENT_COMPLETED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 106,
+      "from_status": "MEASUREMENT_FAILED",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 81,
+      "from_status": "MEASUREMENT_FAILED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 102,
+      "from_status": "MEASUREMENT_FINISHED_ON_SITE",
+      "to_status": "MEASUREMENT_COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "MEASURER"
+      ]
+    },
+    {
+      "id": 79,
+      "from_status": "MEASUREMENT_FINISHED_ON_SITE",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 101,
+      "from_status": "MEASUREMENT_IN_PROGRESS",
+      "to_status": "MEASUREMENT_FINISHED_ON_SITE",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "MEASURER"
+      ]
+    },
+    {
+      "id": 78,
+      "from_status": "MEASUREMENT_IN_PROGRESS",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 76,
+      "from_status": "MEASUREMENT_PRE_SCHEDULED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 13,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 104,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "MEASUREMENT_CANCELED_BY_MEASURER",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 10,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "MEASUREMENT_COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "ENGINEER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 103,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "MEASUREMENT_FAILED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 100,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "MEASUREMENT_IN_PROGRESS",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER",
+        "MEASURER"
+      ]
+    },
+    {
+      "id": 11,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "MEASUREMENT_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 77,
+      "from_status": "MEASUREMENT_SCHEDULED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 9,
+      "from_status": "MEASUREMENT_SCHEDULING",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 7,
+      "from_status": "MEASUREMENT_SCHEDULING",
+      "to_status": "MEASUREMENT_SCHEDULED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 75,
+      "from_status": "MEASUREMENT_SCHEDULING",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 36,
+      "from_status": "PRODUCTION_COMPLETED",
+      "to_status": "COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 112,
+      "from_status": "PRODUCTION_COMPLETED",
+      "to_status": "DELIVERY_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER",
+        "MANAGER",
+        "CONSTRUCTOR"
+      ]
+    },
+    {
+      "id": 35,
+      "from_status": "PRODUCTION_COMPLETED",
+      "to_status": "INSTALLATION_SCHEDULING",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 89,
+      "from_status": "PRODUCTION_COMPLETED",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 113,
+      "from_status": "PRODUCTION_COMPLETED",
+      "to_status": "READY_FOR_PICKUP",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER",
+        "MANAGER",
+        "CONSTRUCTOR"
+      ]
+    },
+    {
+      "id": 32,
+      "from_status": "PRODUCTION_QUEUE",
+      "to_status": "CANCELLED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER"
+      ]
+    },
+    {
+      "id": 30,
+      "from_status": "PRODUCTION_QUEUE",
+      "to_status": "IN_PRODUCTION",
+      "allowed_roles": [
+        "SUPER_ADMIN"
+      ]
+    },
+    {
+      "id": 87,
+      "from_status": "PRODUCTION_QUEUE",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    },
+    {
+      "id": 115,
+      "from_status": "READY_FOR_PICKUP",
+      "to_status": "COMPLETED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "DISPATCHER",
+        "MANAGER"
+      ]
+    },
+    {
+      "id": 99,
+      "from_status": "READY_FOR_PICKUP",
+      "to_status": "PAUSED",
+      "allowed_roles": [
+        "SUPER_ADMIN",
+        "REGION_MANAGER",
+        "BRANCH_MANAGER",
+        "DISPATCHER"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "activate_employee",
+      "args": "p_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "appsheet_webhook_update",
+      "args": "p_idempotency_key uuid, p_task_id uuid, p_new_status text, p_lat numeric, p_lng numeric, p_comment text, p_timestamp timestamp with time zone",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "assign_delivery",
+      "args": "p_order_id uuid, p_driver_id uuid, p_vehicle_id uuid, p_scheduled_date timestamp with time zone, p_route_order integer DEFAULT NULL::integer",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "assign_engineer",
+      "args": "p_task_id uuid, p_assigned_to uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "assign_measurement",
+      "args": "p_order_id uuid, p_measurer_id uuid, p_date date, p_start_time time without time zone, p_end_time time without time zone, p_estimated_travel_time integer DEFAULT 0",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "can_access_order",
+      "args": "p_order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "change_order_status",
+      "args": "p_order_id uuid, p_new_status text, p_reason text DEFAULT NULL::text, p_reason_id uuid DEFAULT NULL::uuid, p_planned_call_date timestamp with time zone DEFAULT NULL::timestamp with time zone, p_call_comment text DEFAULT NULL::text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "check_is_incomplete",
+      "args": "",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "check_order_duplicates",
+      "args": "p_full_name text, p_phone text, p_city text, p_street text, p_building text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "check_valid_order_status",
+      "args": "",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "complete_communication_task",
+      "args": "p_task_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_branch",
+      "args": "p_name text, p_region_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_communication_task",
+      "args": "p_order_id uuid, p_title text, p_planned_call_date timestamp with time zone, p_comment text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_order",
+      "args": "p_external_id text, p_branch_id uuid, p_order_type text, p_full_name text, p_phone text, p_city text, p_street text DEFAULT NULL::text, p_building text DEFAULT NULL::text, p_material text DEFAULT NULL::text, p_area numeric DEFAULT NULL::numeric, p_force boolean DEFAULT false, p_lat numeric DEFAULT NULL::numeric, p_lng numeric DEFAULT NULL::numeric, p_document_date date DEFAULT NULL::date, p_base_readiness_date date DEFAULT NULL::date, p_payment_date date DEFAULT NULL::date, p_calc_readiness_date date DEFAULT NULL::date, p_delivery_method text DEFAULT 'DELIVERY'::text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_order",
+      "args": "p_external_id text, p_branch_id uuid, p_order_type text, p_full_name text, p_phone text, p_city text, p_street text DEFAULT NULL::text, p_building text DEFAULT NULL::text, p_material text DEFAULT NULL::text, p_area numeric DEFAULT NULL::numeric, p_force boolean DEFAULT false",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_reclamation",
+      "args": "p_parent_order_id uuid, p_reason text, p_reclamation_type text, p_return_to_stage text, p_source text, p_idempotency_key uuid DEFAULT gen_random_uuid()",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_region",
+      "args": "p_name text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "create_vehicle",
+      "args": "p_name text, p_plate_number text, p_branch_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "deactivate_employee",
+      "args": "p_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "delete_worker_schedule",
+      "args": "p_profile_id uuid, p_work_date date",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "get_allowed_transitions",
+      "args": "p_order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "get_user_allowed_action_regions",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "get_user_allowed_view_regions",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "get_user_branch",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "get_user_role",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "handle_new_user",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "hide_branch",
+      "args": "p_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "hide_order",
+      "args": "p_order_id uuid, p_reason text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "hide_region",
+      "args": "p_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "hide_vehicle",
+      "args": "p_vehicle_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "lock_order",
+      "args": "order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "log_changes",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "normalize_phone",
+      "args": "",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "pause_order",
+      "args": "p_order_id uuid, p_reason_id uuid, p_resume_date date DEFAULT NULL::date",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "prevent_self_escalation",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "protect_system_records",
+      "args": "",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "reclamation_unfreeze_parent",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "resume_order",
+      "args": "p_order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "set_default_profile_regions",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "set_engineering_tasks_updated_at",
+      "args": "",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "trg_auto_call_delivery",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "trg_auto_create_engineering_task",
+      "args": "",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "unassign_delivery",
+      "args": "p_order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "unassign_measurement",
+      "args": "p_order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "unlock_order",
+      "args": "order_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_branch",
+      "args": "p_id uuid, p_name text, p_region_id uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_default_filters",
+      "args": "p_id uuid, p_filters jsonb",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_employee_profile",
+      "args": "p_id uuid, p_role_code text, p_is_active boolean, p_branch_id uuid, p_color text, p_base_lat numeric, p_base_lng numeric, p_allowed_view_regions uuid[], p_allowed_action_regions uuid[], p_region_id uuid DEFAULT NULL::uuid",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_employee_profile",
+      "args": "p_id uuid, p_full_name text, p_role_code text, p_branch_id uuid, p_department_id uuid, p_phone text, p_email text, p_work_status text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_engineering_task_status",
+      "args": "p_task_id uuid, p_status text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_engineering_task_status",
+      "args": "p_task_id uuid, p_status text, p_next_order_status text DEFAULT NULL::text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_order_dates",
+      "args": "p_order_id uuid, p_document_date date DEFAULT NULL::date, p_base_readiness_date date DEFAULT NULL::date, p_payment_date date DEFAULT NULL::date, p_calc_readiness_date date DEFAULT NULL::date",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "update_order_incomplete_status",
+      "args": "",
+      "is_security_definer": false,
+      "config": null
+    },
+    {
+      "name": "update_order_resume_date",
+      "args": "p_order_id uuid, p_resume_date timestamp with time zone",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_planned_call",
+      "args": "p_order_id uuid, p_date timestamp with time zone, p_comment text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_region",
+      "args": "p_id uuid, p_name text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_role_permissions",
+      "args": "p_code text, p_name_ua text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "update_vehicle",
+      "args": "p_vehicle_id uuid, p_name text, p_plate_number text",
+      "is_security_definer": true,
+      "config": null
+    },
+    {
+      "name": "upsert_worker_schedule",
+      "args": "p_profile_id uuid, p_work_date date, p_status text, p_start_time time without time zone, p_end_time time without time zone",
+      "is_security_definer": true,
+      "config": null
+    }
+  ],
+  "triggers": [
+    {
+      "table": "branches",
+      "trigger_name": "audit_branches_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "branches",
+      "trigger_name": "audit_branches_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "branches",
+      "trigger_name": "audit_branches_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "brigades",
+      "trigger_name": "trg_protect_brigades",
+      "action_statement": "EXECUTE FUNCTION protect_system_records()"
+    },
+    {
+      "table": "cancel_reasons",
+      "trigger_name": "trg_protect_cancel_reasons",
+      "action_statement": "EXECUTE FUNCTION protect_system_records()"
+    },
+    {
+      "table": "decors",
+      "trigger_name": "trg_protect_decors",
+      "action_statement": "EXECUTE FUNCTION protect_system_records()"
+    },
+    {
+      "table": "engineering_tasks",
+      "trigger_name": "trigger_engineering_tasks_updated_at",
+      "action_statement": "EXECUTE FUNCTION set_engineering_tasks_updated_at()"
+    },
+    {
+      "table": "materials",
+      "trigger_name": "trg_protect_materials",
+      "action_statement": "EXECUTE FUNCTION protect_system_records()"
+    },
+    {
+      "table": "order_contacts",
+      "trigger_name": "trg_normalize_phone",
+      "action_statement": "EXECUTE FUNCTION normalize_phone()"
+    },
+    {
+      "table": "order_contacts",
+      "trigger_name": "trg_normalize_phone",
+      "action_statement": "EXECUTE FUNCTION normalize_phone()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "audit_orders_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "audit_orders_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "audit_orders_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "check_order_status_trigger",
+      "action_statement": "EXECUTE FUNCTION check_valid_order_status()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "check_order_status_trigger",
+      "action_statement": "EXECUTE FUNCTION check_valid_order_status()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "trg_auto_create_engineering_task",
+      "action_statement": "EXECUTE FUNCTION trg_auto_create_engineering_task()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "trg_reclamation_unfreeze_parent_update",
+      "action_statement": "EXECUTE FUNCTION reclamation_unfreeze_parent()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "trg_set_is_incomplete",
+      "action_statement": "EXECUTE FUNCTION check_is_incomplete()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "trg_set_is_incomplete",
+      "action_statement": "EXECUTE FUNCTION check_is_incomplete()"
+    },
+    {
+      "table": "orders",
+      "trigger_name": "trigger_auto_call_delivery",
+      "action_statement": "EXECUTE FUNCTION trg_auto_call_delivery()"
+    },
+    {
+      "table": "pause_reasons",
+      "trigger_name": "trg_protect_pause_reasons",
+      "action_statement": "EXECUTE FUNCTION protect_system_records()"
+    },
+    {
+      "table": "profiles",
+      "trigger_name": "audit_profiles_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "profiles",
+      "trigger_name": "audit_profiles_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "profiles",
+      "trigger_name": "audit_profiles_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "profiles",
+      "trigger_name": "prevent_self_escalation_trigger",
+      "action_statement": "EXECUTE FUNCTION prevent_self_escalation()"
+    },
+    {
+      "table": "profiles",
+      "trigger_name": "set_default_profile_regions_trigger",
+      "action_statement": "EXECUTE FUNCTION set_default_profile_regions()"
+    },
+    {
+      "table": "profiles",
+      "trigger_name": "set_default_profile_regions_trigger",
+      "action_statement": "EXECUTE FUNCTION set_default_profile_regions()"
+    },
+    {
+      "table": "regions",
+      "trigger_name": "audit_regions_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "regions",
+      "trigger_name": "audit_regions_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "regions",
+      "trigger_name": "audit_regions_changes",
+      "action_statement": "EXECUTE FUNCTION log_changes()"
+    },
+    {
+      "table": "task_types",
+      "trigger_name": "trg_protect_task_types",
+      "action_statement": "EXECUTE FUNCTION protect_system_records()"
+    }
+  ],
+  "privileges": [
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "audit_logs"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "branches"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "brigades"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "cancel_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "communication_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "decors"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "delivery_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "engineering_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "materials"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "measurement_tasks"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "order_activities"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "order_addresses"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "order_contacts"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "order_specifications"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "order_status_history"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "orders"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "pause_reasons"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "profiles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "regions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "roles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "settings"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "status_required_fields"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "status_transitions"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "task_types"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "vehicles"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "webhook_events"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "table_name": "worker_schedules"
+    },
+    {
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "table_name": "worker_schedules"
+    }
+  ],
+  "rls_policies": [
+    {
+      "tablename": "audit_logs",
+      "policyname": "Audit logs viewable by SUPER_ADMIN",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "branches",
+      "policyname": "Branches editable by SUPER_ADMIN",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "branches",
+      "policyname": "Branches viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.role() = 'authenticated'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "brigades",
+      "policyname": "Modify brigades",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "brigades",
+      "policyname": "Select brigades",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "cancel_reasons",
+      "policyname": "Modify cancel_reasons",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "cancel_reasons",
+      "policyname": "Select cancel_reasons",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "communication_tasks",
+      "policyname": "Enable all for authenticated users",
+      "permissive": "PERMISSIVE",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "can_access_order(order_id)",
+      "with_check": null
+    },
+    {
+      "tablename": "communication_tasks",
+      "policyname": "Enable read for authenticated users",
+      "permissive": "PERMISSIVE",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "can_access_order(order_id)",
+      "with_check": null
+    },
+    {
+      "tablename": "decors",
+      "policyname": "Modify decors",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "decors",
+      "policyname": "Select decors",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "delivery_tasks",
+      "policyname": "Allow read access to delivery tasks for users in the same branc",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM orders o\n  WHERE ((o.id = delivery_tasks.order_id) AND ((o.branch_id = ( SELECT profiles.branch_id\n           FROM profiles\n          WHERE (profiles.id = auth.uid()))) OR (get_user_role() = 'SUPER_ADMIN'::text)))))",
+      "with_check": null
+    },
+    {
+      "tablename": "engineering_tasks",
+      "policyname": "Enable all for authenticated users",
+      "permissive": "PERMISSIVE",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "true",
+      "with_check": "true"
+    },
+    {
+      "tablename": "materials",
+      "policyname": "Modify materials",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "materials",
+      "policyname": "Select materials",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "measurement_tasks",
+      "policyname": "Delete measurement_tasks",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "DELETE",
+      "qual": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))",
+      "with_check": null
+    },
+    {
+      "tablename": "measurement_tasks",
+      "policyname": "Insert measurement_tasks",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))"
+    },
+    {
+      "tablename": "measurement_tasks",
+      "policyname": "Select measurement_tasks",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "measurement_tasks",
+      "policyname": "Update measurement_tasks",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))",
+      "with_check": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))"
+    },
+    {
+      "tablename": "order_activities",
+      "policyname": "Enable all actions for authenticated users",
+      "permissive": "PERMISSIVE",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "true",
+      "with_check": "true"
+    },
+    {
+      "tablename": "order_addresses",
+      "policyname": "Addresses access",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "can_access_order(order_id)",
+      "with_check": "can_access_order(order_id)"
+    },
+    {
+      "tablename": "order_contacts",
+      "policyname": "Contacts access",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "can_access_order(order_id)",
+      "with_check": "can_access_order(order_id)"
+    },
+    {
+      "tablename": "order_specifications",
+      "policyname": "Specifications access",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "can_access_order(order_id)",
+      "with_check": "can_access_order(order_id)"
+    },
+    {
+      "tablename": "order_status_history",
+      "policyname": "Select status_history",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "can_access_order(order_id)",
+      "with_check": null
+    },
+    {
+      "tablename": "orders",
+      "policyname": "Orders deletable by region",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "DELETE",
+      "qual": "((get_user_allowed_action_regions() IS NULL) OR (( SELECT branches.region_id\n   FROM branches\n  WHERE (branches.id = orders.branch_id)) = ANY (get_user_allowed_action_regions())))",
+      "with_check": null
+    },
+    {
+      "tablename": "orders",
+      "policyname": "Orders insertable by region",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((get_user_allowed_action_regions() IS NULL) OR (( SELECT branches.region_id\n   FROM branches\n  WHERE (branches.id = orders.branch_id)) = ANY (get_user_allowed_action_regions())))"
+    },
+    {
+      "tablename": "orders",
+      "policyname": "Orders updatable by region",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "((is_hidden = false) AND ((get_user_allowed_action_regions() IS NULL) OR (( SELECT branches.region_id\n   FROM branches\n  WHERE (branches.id = orders.branch_id)) = ANY (get_user_allowed_action_regions()))))",
+      "with_check": "((is_hidden = false) AND ((get_user_allowed_action_regions() IS NULL) OR (( SELECT branches.region_id\n   FROM branches\n  WHERE (branches.id = orders.branch_id)) = ANY (get_user_allowed_action_regions()))))"
+    },
+    {
+      "tablename": "orders",
+      "policyname": "Orders viewable by region",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((is_hidden = false) AND ((get_user_allowed_view_regions() IS NULL) OR (( SELECT branches.region_id\n   FROM branches\n  WHERE (branches.id = orders.branch_id)) = ANY (get_user_allowed_view_regions()))))",
+      "with_check": null
+    },
+    {
+      "tablename": "pause_reasons",
+      "policyname": "Modify pause_reasons",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "pause_reasons",
+      "policyname": "Select pause_reasons",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "profiles",
+      "policyname": "Profiles deletable by SUPER_ADMIN",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "DELETE",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "profiles",
+      "policyname": "Profiles insertable by trigger",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "tablename": "profiles",
+      "policyname": "Profiles updatable by SUPER_ADMIN or self",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "((auth.uid() = id) OR (get_user_role() = 'SUPER_ADMIN'::text))",
+      "with_check": "((auth.uid() = id) OR (get_user_role() = 'SUPER_ADMIN'::text))"
+    },
+    {
+      "tablename": "profiles",
+      "policyname": "Profiles viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.role() = 'authenticated'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "regions",
+      "policyname": "Regions editable by SUPER_ADMIN",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "regions",
+      "policyname": "Regions viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.role() = 'authenticated'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "roles",
+      "policyname": "Roles viewable by everyone",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(auth.role() = 'authenticated'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "task_types",
+      "policyname": "Modify task_types",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(get_user_role() = 'SUPER_ADMIN'::text)",
+      "with_check": null
+    },
+    {
+      "tablename": "task_types",
+      "policyname": "Select task_types",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "vehicles",
+      "policyname": "Allow read access to vehicles for users in the same branch",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((branch_id = ( SELECT profiles.branch_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))) OR (get_user_role() = 'SUPER_ADMIN'::text))",
+      "with_check": null
+    },
+    {
+      "tablename": "worker_schedules",
+      "policyname": "Delete worker_schedules",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "DELETE",
+      "qual": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))",
+      "with_check": null
+    },
+    {
+      "tablename": "worker_schedules",
+      "policyname": "Insert worker_schedules",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))"
+    },
+    {
+      "tablename": "worker_schedules",
+      "policyname": "Select worker_schedules",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "worker_schedules",
+      "policyname": "Update worker_schedules",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "UPDATE",
+      "qual": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))",
+      "with_check": "(get_user_role() = ANY (ARRAY['DISPATCHER'::text, 'SUPER_ADMIN'::text]))"
+    }
+  ],
+  "rls_disabled": [
+    {
+      "table_name": "settings"
+    },
+    {
+      "table_name": "status_required_fields"
+    },
+    {
+      "table_name": "status_transitions"
+    }
+  ],
+  "status_required_fields": [
+    {
+      "id": 3,
+      "status": "MEASUREMENT_SCHEDULED",
+      "required_table": "order_contacts",
+      "required_columns": [
+        "phone",
+        "full_name"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "MEASUREMENT_SCHEDULED",
+      "required_table": "order_addresses",
+      "required_columns": [
+        "city",
+        "street",
+        "building"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "ENGINEERING_NESTING",
+      "required_table": "order_contacts",
+      "required_columns": [
+        "phone",
+        "full_name"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "ENGINEERING_NESTING",
+      "required_table": "order_specifications",
+      "required_columns": [
+        "material_type",
+        "area_sqm"
+      ]
+    }
+  ],
+  "change_order_status_def": "CREATE OR REPLACE FUNCTION public.change_order_status(p_order_id uuid, p_new_status text, p_reason text DEFAULT NULL::text, p_reason_id uuid DEFAULT NULL::uuid, p_planned_call_date timestamp with time zone DEFAULT NULL::timestamp with time zone, p_call_comment text DEFAULT NULL::text)\n RETURNS boolean\n LANGUAGE plpgsql\n SECURITY DEFINER\nAS $function$\nDECLARE\n  v_current_status text;\n  v_is_incomplete boolean;\n  v_role text;\n  v_target_status text;\n  v_auto_status text := NULL;\n  v_previous_status text;\n  v_is_reclamation_frozen boolean;\n  \n  -- Variables for SLA shift\n  v_pause_start timestamptz;\n  v_pause_reason text;\n  v_days_shifted int := 0;\nBEGIN\n  SELECT status, is_incomplete, previous_status, is_reclamation_frozen \n  INTO v_current_status, v_is_incomplete, v_previous_status, v_is_reclamation_frozen\n  FROM public.orders WHERE id = p_order_id FOR UPDATE;\n  \n  v_role := COALESCE(public.get_user_role(), 'UNKNOWN');\n  v_target_status := p_new_status;\n\n  -- Block closing frozen orders or orders with active reclamations\n  IF p_new_status = 'COMPLETED' THEN\n    IF v_is_reclamation_frozen = true THEN\n       RAISE EXCEPTION 'Cannot complete order: frozen by reclamation';\n    END IF;\n    IF EXISTS (\n       SELECT 1 FROM public.orders \n       WHERE parent_order_id = p_order_id \n         AND status NOT IN ('COMPLETED', 'CANCELLED')\n    ) THEN\n       RAISE EXCEPTION 'Cannot complete order: active child reclamations exist';\n    END IF;\n  END IF;\n\n  -- Автоматична маршрутизація для Хвилі 5 (Доставки)\n  IF v_current_status = 'PRODUCTION_COMPLETED' AND p_new_status IN ('DELIVERY_SCHEDULING', 'READY_FOR_PICKUP') THEN\n     IF (SELECT delivery_method FROM public.orders WHERE id = p_order_id) = 'PICKUP' THEN\n         p_new_status := 'READY_FOR_PICKUP';\n         v_target_status := 'READY_FOR_PICKUP';\n     ELSE\n         p_new_status := 'DELIVERY_SCHEDULING';\n         v_target_status := 'DELIVERY_SCHEDULING';\n     END IF;\n  END IF;\n\n  IF v_current_status = 'DELIVERY_IN_TRANSIT' AND p_new_status IN ('INSTALLATION_SCHEDULING', 'COMPLETED') THEN\n     IF (SELECT order_type FROM public.orders WHERE id = p_order_id) = 'NO_INSTALLATION' THEN\n         p_new_status := 'COMPLETED';\n         v_target_status := 'COMPLETED';\n     ELSE\n         p_new_status := 'INSTALLATION_SCHEDULING';\n         v_target_status := 'INSTALLATION_SCHEDULING';\n     END IF;\n  END IF;\n\n\n  \n  IF v_current_status = p_new_status THEN\n    RETURN true;\n  END IF;\n\n  -- Перевірка доступності переходу\n  IF v_current_status = 'PAUSED' AND p_new_status = 'RESUME' THEN\n    v_target_status := COALESCE(v_previous_status, CASE WHEN (SELECT order_type FROM public.orders WHERE id = p_order_id) = 'BY_DRAWING' THEN 'ENGINEERING_QUEUE' ELSE 'MEASUREMENT_SCHEDULING' END);\n    \n    -- Зсув SLA (Таймлайни 1, 2, 3), якщо була пауза через вину клієнта\n    SELECT created_at, reason INTO v_pause_start, v_pause_reason\n    FROM public.order_status_history\n    WHERE order_id = p_order_id AND to_status = 'PAUSED'\n    ORDER BY created_at DESC LIMIT 1;\n    \n    IF v_pause_reason = 'CLIENT_FAULT' AND v_pause_start IS NOT NULL THEN\n       v_days_shifted := GREATEST(0, (CURRENT_DATE - v_pause_start::date));\n       \n       IF v_days_shifted > 0 THEN\n          UPDATE public.orders\n          SET base_readiness_date = base_readiness_date + v_days_shifted,\n              calc_readiness_date = calc_readiness_date + v_days_shifted,\n              internal_target_date = internal_target_date + v_days_shifted\n          WHERE id = p_order_id;\n       END IF;\n    END IF;\n\n  ELSE\n    IF v_role != 'SUPER_ADMIN' AND NOT EXISTS (\n      SELECT 1 FROM public.status_transitions \n      WHERE from_status = v_current_status AND to_status = p_new_status AND v_role = ANY(allowed_roles)\n    ) THEN\n      RAISE EXCEPTION 'Transition from % to % not allowed for role %', v_current_status, p_new_status, v_role;\n    END IF;\n  END IF;\n\n  -- Перевірка причин паузи / скасування\n  IF p_reason_id IS NOT NULL THEN\n    IF v_target_status = 'PAUSED' AND NOT EXISTS (SELECT 1 FROM public.pause_reasons WHERE id = p_reason_id) THEN\n      RAISE EXCEPTION 'Invalid pause_reason_id';\n    END IF;\n    IF v_target_status = 'CANCELLED' AND NOT EXISTS (SELECT 1 FROM public.cancel_reasons WHERE id = p_reason_id) THEN\n      RAISE EXCEPTION 'Invalid cancel_reason_id';\n    END IF;\n  END IF;\n\n  -- Авто-переходи для FAILED та CANCELED\n  IF p_new_status = 'MEASUREMENT_FAILED' THEN\n    v_auto_status := 'MEASUREMENT_SCHEDULING';\n    v_previous_status := NULL;\n    p_reason := COALESCE(p_reason, 'CLIENT_FAULT');\n  ELSIF p_new_status = 'INSTALLATION_FAILED' THEN\n    v_auto_status := 'INSTALLATION_SCHEDULING';\n    v_previous_status := NULL;\n    p_reason := COALESCE(p_reason, 'CLIENT_FAULT');\n  ELSIF p_new_status = 'MEASUREMENT_CANCELED_BY_MEASURER' THEN\n    v_auto_status := 'MEASUREMENT_SCHEDULING';\n    v_previous_status := NULL;\n  END IF;\n\n  -- Скасування старих завдань\n  IF p_new_status IN ('MEASUREMENT_FAILED', 'MEASUREMENT_CANCELED_BY_MEASURER') THEN\n    UPDATE public.measurement_tasks\n    SET outcome = 'CANCELLED'\n    WHERE order_id = p_order_id AND outcome IN ('SCHEDULED', 'IN_PROGRESS');\n  END IF;\n\n  -- Запис першого переходу (напр., SCHEDULED -> FAILED)\n  INSERT INTO public.order_status_history (\n    order_id, from_status, to_status, changed_by, source, reason, reason_id\n  ) VALUES (\n    p_order_id, v_current_status, p_new_status, auth.uid(), \n    COALESCE(current_setting('app.source', true), 'UI'), \n    p_reason, p_reason_id\n  );\n\n  -- Якщо є авто-перехід (напр. FAILED -> PAUSED), записуємо і його\n  IF v_auto_status IS NOT NULL THEN\n    INSERT INTO public.order_status_history (\n      order_id, from_status, to_status, changed_by, source, reason, reason_id\n    ) VALUES (\n      p_order_id, p_new_status, v_auto_status, auth.uid(), \n      COALESCE(current_setting('app.source', true), 'UI'), \n      p_reason, p_reason_id\n    );\n    v_target_status := v_auto_status;\n  END IF;\n\n  -- Фізичне оновлення замовлення\n  UPDATE public.orders \n  SET status = v_target_status,\n      previous_status = CASE \n        WHEN v_target_status = 'PAUSED' THEN COALESCE(v_previous_status, v_current_status)\n        ELSE previous_status\n      END,\n      entered_measurement_pool_at = CASE \n        WHEN v_target_status = 'MEASUREMENT_SCHEDULING' THEN COALESCE(entered_measurement_pool_at, now())\n        ELSE entered_measurement_pool_at \n      END,\n      planned_call_date = CASE \n        WHEN p_planned_call_date IS NOT NULL THEN p_planned_call_date\n        WHEN v_target_status = 'MEASUREMENT_SCHEDULING' AND v_current_status != 'MEASUREMENT_SCHEDULING' THEN now()\n        ELSE planned_call_date\n      END,\n      call_comment = CASE \n        WHEN p_planned_call_date IS NOT NULL THEN p_call_comment\n        WHEN v_target_status = 'MEASUREMENT_SCHEDULING' AND v_current_status != 'MEASUREMENT_SCHEDULING' THEN 'Потрібен повторний контакт'\n        ELSE call_comment\n      END,\n      updated_at = now()\n  WHERE id = p_order_id;\n  \n  RETURN true;\nEND;\n$function$\n",
+  "cron": "No cron jobs or extension not available",
+  "pgmq": "No pgmq or extension not available",
+  "audit_table": {
+    "name": "audit_logs",
+    "structure": [
+      {
+        "column_name": "id",
+        "data_type": "uuid"
+      },
+      {
+        "column_name": "table_name",
+        "data_type": "text"
+      },
+      {
+        "column_name": "record_id",
+        "data_type": "text"
+      },
+      {
+        "column_name": "action",
+        "data_type": "text"
+      },
+      {
+        "column_name": "old_data",
+        "data_type": "jsonb"
+      },
+      {
+        "column_name": "new_data",
+        "data_type": "jsonb"
+      },
+      {
+        "column_name": "changed_by",
+        "data_type": "uuid"
+      },
+      {
+        "column_name": "source",
+        "data_type": "text"
+      },
+      {
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone"
+      }
+    ],
+    "count": "265",
+    "sources": [
+      {
+        "source": "MES",
+        "count": "2"
+      },
+      {
+        "source": "AppSheet",
+        "count": "6"
+      },
+      {
+        "source": "UI",
+        "count": "257"
+      }
+    ]
+  }
+}
