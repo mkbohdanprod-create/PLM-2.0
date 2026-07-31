@@ -37,6 +37,7 @@ const MODULES = [
 ];
 
 function App() {
+  const [isInitializing, setIsInitializing] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<any>(null);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
@@ -117,6 +118,7 @@ function App() {
       if (session) {
         setSession(session);
         fetchProfile(session?.user?.id);
+        setIsInitializing(false);
       } else {
         // Auto-login as superadmin if no session exists
         supabase.auth.signInWithPassword({
@@ -128,6 +130,7 @@ function App() {
             setSession(data.session);
             fetchProfile(data.session.user.id);
           }
+          setIsInitializing(false);
         });
       }
     });
@@ -202,6 +205,14 @@ function App() {
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
     setProfile(data);
   };
+
+  if (isInitializing) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'var(--bg-main)' }}>
+        <div style={{ fontSize: '18px', color: 'var(--text-primary)' }}>Виконується автоматичний вхід...</div>
+      </div>
+    );
+  }
 
   if (!session) {
     return <Login />;
