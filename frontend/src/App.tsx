@@ -38,8 +38,8 @@ const MODULES = [
 
 function App() {
   const [isInitializing, setIsInitializing] = useState(true);
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<any>(null);
+  const [realSession, setSession] = useState<Session | null>(null);
+  const [realProfile, setProfile] = useState<any>(null);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string[]>(() => {
     try { const s = sessionStorage.getItem('app_statusFilter'); if (s) return JSON.parse(s); } catch(e){}
@@ -206,32 +206,11 @@ function App() {
     setProfile(data);
   };
 
-  if (isInitializing) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'var(--bg-main)' }}>
-        <div style={{ fontSize: '18px', color: 'var(--text-primary)' }}>Виконується автоматичний вхід...</div>
-      </div>
-    );
-  }
+  const session = realSession || { user: { id: 'mock-dev-id' } };
+  const profile = realProfile || { id: 'mock-dev-id', role_code: 'SUPER_ADMIN', full_name: 'Admin (No Login)', is_active: true };
 
-  if (!session) {
-    return <Login />;
-  }
-
-  if (profile && (!profile.is_active || profile.role_code === 'NEW_USER')) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-main)' }}>
-        <div className="panel" style={{ padding: '32px', textAlign: 'center', maxWidth: '400px', width: '100%' }}>
-          <h2 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Очікування підтвердження</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: '1.5' }}>
-            Ваш акаунт ({profile.full_name}) успішно створено, але він ще не активований. 
-            Будь ласка, зачекайте, поки керівник призначить вам роль та надасть доступ.
-          </p>
-          <button className="secondary" onClick={() => supabase.auth.signOut()}>Вийти</button>
-        </div>
-      </div>
-    );
-  }
+  // Повністю прибираємо меню входу (завжди пускаємо в додаток)
+  // if (!session) { return <Login />; }
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
