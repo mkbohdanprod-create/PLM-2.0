@@ -113,3 +113,10 @@ export const STATUS_LABELS: Record<string, string> = {
   'COMPLETED': 'Завершено',
   'CANCELLED': 'Скасовано'
 };
+
+export const ORDER_TYPES: Record<string, string> = {
+  FULL_CYCLE: 'Повний цикл',
+  MEASUREMENT_ONLY: 'Тільки замір',
+  WITHOUT_MEASUREMENT: 'Без заміру',
+  RECLAMATION: 'Рекламація'
+};

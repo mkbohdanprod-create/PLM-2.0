@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { supabase } from './supabase';
+import { supabase } from '../../supabase';
 import { ChevronLeft, ChevronRight, Car, Lock, Filter } from 'lucide-react';
 import { useDroppable, useDraggable } from '@dnd-kit/core';
-import { isPaused, STATUS_LABELS, ORDER_TYPES } from './utils/orderStages';
+import { isPaused, STATUS_LABELS, ORDER_TYPES } from '../../utils/orderStages';
 
 // Helper for generating dates
 const addDays = (date: Date, days: number) => {
@@ -20,29 +20,27 @@ const formatDayName = (date: Date) => {
   return days[date.getDay()];
 };
 
-interface CalendarPanelProps {
+interface MeasurementManagerCalendarProps {
   refreshTrigger: number;
-  onSelectOrder?: (id: string) => void;
-  selectedMapDate?: Date;
-  onSelectMapDate?: (date: Date) => void;
-  selectedOrderId?: string | null;
-  measurers?: any[];
-  filterMeasurerId?: string;
-  filterStatus?: string;
-  setFilterMeasurerId?: (id: string) => void;
-  setFilterStatus?: (status: string) => void;
-  plannerSettings?: any;
-  activeModule?: string;
   globalRegion?: string[];
-  globalStatus?: string;
-  globalType?: string;
+  measurers?: any[];
 }
 
-export function CalendarPanel({ activeModule, refreshTrigger, onSelectOrder, selectedMapDate = new Date(), onSelectMapDate, selectedOrderId, measurers = [], filterMeasurerId = 'ALL', filterStatus = 'ALL', setFilterMeasurerId, setFilterStatus, plannerSettings = {}, globalRegion = ['Всі'], globalStatus = 'Актуальні', globalType = 'Всі' }: CalendarPanelProps) {
+export function MeasurementManagerCalendar({ refreshTrigger, globalRegion = ['Всі'], measurers = [] }: MeasurementManagerCalendarProps) {
   const [viewMode, setViewMode] = useState<'month' | 'week' | 'day'>('week');
   const [schedules, setSchedules] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
   const [startDate, setStartDate] = useState(new Date());
+  
+  const [filterMeasurerId, setFilterMeasurerId] = useState('ALL');
+  const [filterStatus, setFilterStatus] = useState('ALL');
+  const plannerSettings = { efficiencyCoef: 80, defaultDurationMins: 60, defaultTravelMins: 20 };
+  const selectedMapDate = startDate;
+  const onSelectMapDate = (d: Date) => setStartDate(d);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+  const onSelectOrder = (id: string) => setSelectedOrderId(id);
+  const globalStatus = 'Актуальні';
+  const globalType = 'Всі';
   const [selectedDay, setSelectedDay] = useState(new Date());
 
   const HOURS = Array.from({ length: 13 }, (_, i) => {
@@ -349,45 +347,15 @@ export function CalendarPanel({ activeModule, refreshTrigger, onSelectOrder, sel
     });
   }
 
-  const isMeasurerVisible = (measurerId: string) => {
-    let daysToCheck: Date[] = [];
-    if (viewMode === 'day') {
-      daysToCheck = [selectedDay];
-    } else if (viewMode === 'week') {
-      daysToCheck = weekDays;
-    } else if (viewMode === 'month') {
-      daysToCheck = monthDays;
-    }
-
-    for (const date of daysToCheck) {
-      const dateStr = formatDate(date);
-      const sched = getDaySchedule(measurerId, dateStr);
-      const dayTasks = tasks.filter(t => t.measurer_id === measurerId && t.scheduled_date === dateStr && filterTaskByStatus(t));
-      
-      const isExplicitlyOff = sched && sched.status !== 'WORKING';
-      
-      // Visible if they are not explicitly off, OR if they have tasks assigned anyway
-      if (!isExplicitlyOff || dayTasks.length > 0) {
-        return true;
-      }
-    }
-    
-    return false;
-  };
-
   const groupedMeasurers = Array.from(regionsSet)
     .filter(regionName => globalRegion.includes('Всі') || globalRegion.includes(regionName))
     .map(regionName => ({
       regionName,
-      measurers: filteredMeasurers.filter(m => {
-        const isMatchRegion = (m.regions?.name || m.branches?.regions?.name || 'Інше') === regionName;
-        return isMatchRegion && isMeasurerVisible(m.id);
-      })
-    }))
-    .sort((a, b) => a.regionName.localeCompare(b.regionName));
+      measurers: filteredMeasurers.filter(m => (m.regions?.name || m.branches?.regions?.name || 'Інше') === regionName)
+    })).sort((a, b) => a.regionName.localeCompare(b.regionName));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', minWidth: 0 }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -493,7 +461,7 @@ export function CalendarPanel({ activeModule, refreshTrigger, onSelectOrder, sel
         ref={scrollRef}
         style={{ flex: 1, overflow: 'auto', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', background: 'var(--bg-panel)' }}
       >
-        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1200px' }}>
           <thead>
             <tr>
               <th style={{ width: '120px', borderBottom: '1px solid var(--border-color)', borderRight: '1px solid var(--border-color)', padding: '12px', background: 'var(--bg-main)' }}>

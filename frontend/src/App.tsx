@@ -14,6 +14,7 @@ import { EmployeesDirectory } from './EmployeesDirectory';
 
 import { SettingsDrawer } from './SettingsDrawer';
 import { WorkerSchedulesPanel } from './WorkerSchedulesPanel';
+import { MeasurementManagerDesktop } from './components/measurer/MeasurementManagerDesktop';
 import { EngineeringBoard } from './components/engineering/EngineeringBoard';
 import { ProductionBoard } from './components/production/ProductionBoard';
 import { OrderMonitoringBoard } from './components/monitoring/OrderMonitoringBoard';
@@ -57,7 +58,7 @@ function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [activeModule, setActiveModule] = useState<string>(() => sessionStorage.getItem('app_activeModule') || 'Планування замірів');
   const [activeDragOrder, setActiveDragOrder] = useState<any>(null);
-  const [pendingDrop, setPendingDrop] = useState<{orderId: string, actualMeasurerId: string | null, dateStr: string} | null>(null);
+  const [pendingDrop, setPendingDrop] = useState<{orderId: string, actualMeasurerId: string | null, dateStr: string, defaultTime?: string} | null>(null);
 
   const [showSettings, setShowSettings] = useState(false);
   const [plannerSettings, setPlannerSettings] = useState(() => {
@@ -304,6 +305,31 @@ function App() {
     }
 
     if (dateStr) {
+      let dynamicDurationMins = plannerSettings?.defaultDurationMins || 120;
+      let isCustomTime = false;
+      try {
+        const [{ data: specData }, { data: rulesData }, { data: orderData }] = await Promise.all([
+          supabase.from('order_specifications').select('area_sqm').eq('order_id', orderId).maybeSingle(),
+          supabase.from('settings').select('value').eq('key', 'measurement_duration_rules').maybeSingle(),
+          supabase.from('orders').select('measurement_duration_mins').eq('id', orderId).maybeSingle()
+        ]);
+        
+        if (orderData?.measurement_duration_mins) {
+          dynamicDurationMins = orderData.measurement_duration_mins;
+        } else if (rulesData?.value) {
+          const rules = JSON.parse(rulesData.value);
+          const area = specData?.area_sqm || 0;
+          const matchedRule = rules.find((r: any) => area >= r.min_sqm && area <= r.max_sqm);
+          if (matchedRule) {
+            dynamicDurationMins = matchedRule.duration_mins;
+            isCustomTime = matchedRule.is_custom || false;
+            if (isCustomTime || dynamicDurationMins <= 0) dynamicDurationMins = plannerSettings?.defaultDurationMins || 120; 
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching duration rules:', e);
+      }
+
       if (timeSlot) {
         let p_start = '10:00:00';
         let p_end = '12:00:00';
@@ -314,15 +340,23 @@ function App() {
             p_end = tParts[1].trim() + (tParts[1].trim().length === 5 ? ':00' : '');
           } else if (timeSlot.includes(':')) {
             p_start = timeSlot + ':00';
-            const h = parseInt(timeSlot.split(':')[0]);
-            const eh = h + 2; // Default duration: 2 hours
-            p_end = `${eh < 10 ? '0'+eh : eh}:00:00`;
+            const [h, m] = timeSlot.split(':').map(Number);
+            const totalMins = h * 60 + (m || 0) + dynamicDurationMins;
+            const eh = Math.floor(totalMins / 60);
+            const em = totalMins % 60;
+            p_end = `${eh.toString().padStart(2, '0')}:${em.toString().padStart(2, '0')}:00`;
           }
         } catch (e) {}
         await processAssignment(orderId, actualMeasurerId, dateStr, p_start, p_end);
       } else {
-        // Open modal instead of prompt
-        setPendingDrop({ orderId, actualMeasurerId, dateStr });
+        // Compute default string for modal
+        let p_start = '10:00';
+        const totalMins = 10 * 60 + dynamicDurationMins;
+        const eh = Math.floor(totalMins / 60);
+        const em = totalMins % 60;
+        let p_end = `${eh.toString().padStart(2, '0')}:${em.toString().padStart(2, '0')}`;
+        
+        setPendingDrop({ orderId, actualMeasurerId, dateStr, defaultTime: `${p_start}-${p_end}` });
       }
     }
   };
@@ -606,7 +640,7 @@ function App() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           {/* Global Filters */}
-          {activeModule === 'Планування замірів' && (
+          {(activeModule === 'Планування замірів' || activeModule === 'Заміри (AppSheet)') && (
             <div style={{ display: 'flex', gap: '12px', marginRight: '16px', borderRight: '1px solid rgba(255,255,255,0.2)', paddingRight: '20px' }}>
               <div style={{ position: 'relative' }}>
                 <div 
@@ -629,16 +663,20 @@ function App() {
                       <label key={r.id || r.name} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', color: 'var(--text-primary)' }}>
                         <input 
                           type="checkbox" 
-                          checked={globalRegion.includes(r.name) && !globalRegion.includes('Всі')} 
+                          checked={r.name === 'Всі' ? globalRegion.includes('Всі') : (globalRegion.includes(r.name) && !globalRegion.includes('Всі'))} 
                           onChange={(e) => {
+                            if (r.name === 'Всі') {
+                              setGlobalRegion(['Всі']);
+                              return;
+                            }
                             let next = globalRegion.filter(x => x !== 'Всі');
                             if (e.target.checked) {
-                              next = [...next, r.name];
+                              if (!next.includes(r.name)) next.push(r.name);
                             } else {
                               next = next.filter(x => x !== r.name);
                             }
                             if (next.length === 0) next = ['Всі'];
-                            setGlobalRegion(next);
+                            setGlobalRegion(Array.from(new Set(next)));
                           }}
                           style={{ marginRight: '12px', width: '16px', height: '16px' }}
                         />
@@ -650,7 +688,7 @@ function App() {
               </div>
             </div>
           )}
-          {activeModule === 'Планування замірів' && (
+          {(activeModule === 'Планування замірів' || activeModule === 'Заміри (AppSheet)') && (
             <>
               <select 
                 value={globalStatus} 
@@ -874,6 +912,8 @@ function App() {
               globalType={globalType}
               activeModule={activeModule}
             />
+          ) : activeModule === 'Заміри (AppSheet)' ? (
+            <MeasurementManagerDesktop globalRegion={globalRegion} />
           ) : selectedOrderId ? (
             <OrderCard 
               key={selectedOrderId} 
@@ -932,7 +972,7 @@ function App() {
             <input 
               id="pending-time-input"
               type="text" 
-              defaultValue="10:00-12:00"
+              defaultValue={pendingDrop.defaultTime || "10:00-12:00"}
               style={{
                 width: '100%', padding: '8px', border: '1px solid var(--border-color)', 
                 borderRadius: '4px', background: 'var(--bg-input)', color: 'var(--text-primary)', 

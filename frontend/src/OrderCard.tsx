@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { supabase } from './supabase';
-import { Play, Pause, Save, XCircle, AlertTriangle, Lock, ArrowRight, Clock, PhoneCall, MessageSquare } from 'lucide-react';
+import { Play, Pause, Save, XCircle, AlertTriangle, Lock, ArrowRight, Clock, PhoneCall, MessageSquare, ChevronDown, ChevronUp, Edit2, Check, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 
-import { getMacroStage, STATUS_LABELS, isPaused, TASK_STAGE_LABELS } from './utils/orderStages';
+import { getMacroStage, STATUS_LABELS, isPaused, TASK_STAGE_LABELS, MACRO_STAGE_LABELS } from './utils/orderStages';
 
 const ORDER_TYPES: Record<string, string> = {
   FULL_CYCLE: 'Повний цикл',
@@ -26,21 +26,27 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
   const [actionError, setActionError] = useState('');
   const [activeTab, setActiveTab] = useState('Інформація');
   const [pauseReason, setPauseReason] = useState('');
+  const [pauseReasonId, setPauseReasonId] = useState('');
   const [pauseEndDate, setPauseEndDate] = useState('');
   const [pauseActivityDate, setPauseActivityDate] = useState('');
   const [pauseActivityComment, setPauseActivityComment] = useState('Дзвінок після паузи');
-
+  const [pausePreScheduleDate, setPausePreScheduleDate] = useState('');
+  const [pauseReasonsList, setPauseReasonsList] = useState<any[]>([]);
   useEffect(() => {
-    if (pauseEndDate && !pauseActivityDate) {
-      const d = new Date(pauseEndDate);
-      d.setDate(d.getDate() - 1);
-      d.setHours(10, 0, 0, 0);
-      try { setPauseActivityDate(d.toISOString().slice(0, 16)); } catch(e){}
-    }
+    // Автоматично більше не створюємо activity date.
+    // Дата продзвону розраховуватиметься безпосередньо в handlePause (за добу до pauseEndDate)
   }, [pauseEndDate]);
 
   const [history, setHistory] = useState<any[]>([]);
   const [departurePoint, setDeparturePoint] = useState<string | null>(null);
+  
+  const [isEditingTime, setIsEditingTime] = useState(false);
+  const [editStartTime, setEditStartTime] = useState('');
+  const [editEndTime, setEditEndTime] = useState('');
+  
+  const [isEditingDuration, setIsEditingDuration] = useState(false);
+  const [editDuration, setEditDuration] = useState(0);
+  const [measurementDurationRules, setMeasurementDurationRules] = useState<any[]>([]);
   
   const [showFixateConfirm, setShowFixateConfirm] = useState(false);
   const [showUnlockConfirm, setShowUnlockConfirm] = useState(false);
@@ -73,6 +79,40 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
   
   const [closeOutcome, setCloseOutcome] = useState('ANSWERED');
   const [closeOutcomeNotes, setCloseOutcomeNotes] = useState('');
+
+  const [expandedHistoryGroups, setExpandedHistoryGroups] = useState<Record<string, boolean>>({});
+  const toggleHistoryGroup = (id: string) => {
+    setExpandedHistoryGroups(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const groupedHistory = useMemo(() => {
+    const groups: { stage: string, items: any[], id: string }[] = [];
+    let currentGroup: any = null;
+    history.forEach((h, index) => {
+      const stage = getMacroStage(h.to_status);
+      if (!currentGroup || currentGroup.stage !== stage) {
+        if (currentGroup) groups.push(currentGroup);
+        currentGroup = { stage, items: [], id: `group-${index}-${h.id}` };
+      }
+      currentGroup.items.push(h);
+    });
+    if (currentGroup) groups.push(currentGroup);
+    return groups;
+  }, [history]);
+
+  const STAGE_COLORS: Record<string, string> = {
+    'MEASUREMENT_SCHEDULING': '#f39c12',
+    'MEASUREMENT': '#2980b9',
+    'ENGINEERING': '#8e44ad',
+    'MANUFACTURING': '#d35400',
+    'DELIVERY': '#27ae60',
+    'INSTALLATION_SCHEDULING': '#f39c12',
+    'INSTALLATION': '#16a085',
+    'CLOSING': '#2c3e50',
+    'CANCELLED': '#e74c3c',
+    'PAUSE': '#c0392b',
+    'UNKNOWN': '#7f8c8d'
+  };
 
   useEffect(() => {
     fetchOrder();
@@ -180,14 +220,74 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
     fetchOrder();
   };
 
+  const handleSaveTime = async (taskId: string) => {
+    try {
+      const { error } = await supabase
+        .from('measurement_tasks')
+        .update({
+          start_time: editStartTime + (editStartTime.length === 5 ? ':00' : ''),
+          end_time: editEndTime + (editEndTime.length === 5 ? ':00' : '')
+        })
+        .eq('id', taskId);
+      
+      if (error) throw error;
+      
+      setIsEditingTime(false);
+      fetchOrder();
+      onStatusChanged();
+    } catch (err: any) {
+      alert('Помилка збереження часу: ' + err.message);
+    }
+  };
+
+  const handleSaveDuration = async () => {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({ measurement_duration_mins: editDuration })
+        .eq('id', orderId);
+      
+      if (error) throw error;
+      
+      setIsEditingDuration(false);
+      fetchOrder();
+      onStatusChanged();
+    } catch (err: any) {
+      alert('Помилка збереження необхідного часу: ' + err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (showPauseConfirm && pauseReasonsList.length === 0) {
+      supabase.from('pause_reasons').select('*').eq('is_hidden', false).order('name').then(({ data }) => {
+        if (data) setPauseReasonsList(data);
+      });
+    }
+  }, [showPauseConfirm]);
+
+  useEffect(() => {
+    supabase.from('settings').select('value').eq('key', 'measurement_duration_rules').maybeSingle().then(({ data }) => {
+      if (data?.value) setMeasurementDurationRules(JSON.parse(data.value));
+    });
+  }, []);
+
   const handlePause = async () => {
     try {
-      const { error } = await supabase.rpc('change_order_status', {
+      let autoPlannedCallDate = null;
+      if (pauseEndDate) {
+        const d = new Date(pauseEndDate);
+        d.setDate(d.getDate() - 1);
+        d.setHours(10, 0, 0, 0);
+        autoPlannedCallDate = d.toISOString();
+      }
+
+      const { error } = await supabase.rpc('pause_order_with_preschedule', {
         p_order_id: orderId,
-        p_new_status: 'PAUSED',
-        p_reason: pauseReason,
-        p_planned_call_date: pauseActivityDate ? new Date(pauseActivityDate).toISOString() : null,
-        p_call_comment: pauseActivityComment || null
+        p_reason: pauseReason || null,
+        p_reason_id: pauseReasonId || null,
+        p_planned_call_date: autoPlannedCallDate,
+        p_call_comment: pauseReason ? `Завершення паузи: ${pauseReason}` : null,
+        p_pre_scheduled_date: pausePreScheduleDate || null
       });
       if (error) throw error;
 
@@ -202,8 +302,10 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
              order_id: orderId,
              title: 'Дзвінок (Вихід з паузи)',
              activity_type: 'CALL',
+             macro_stage: getMacroStage(order.status),
              planned_at: new Date(pauseActivityDate).toISOString(),
-             comment: pauseActivityComment || ('Причина паузи: ' + pauseReason)
+             comment: pauseActivityComment || ('Причина паузи: ' + pauseReason),
+             created_by: profile?.id
          });
       }
 
@@ -528,13 +630,25 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
                   <AlertTriangle size={18} /> Поставити на паузу
                 </h3>
                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', color: 'var(--text-secondary)' }}>Вкажіть обов'язкову причину паузи:</label>
-                <input 
+                <select
                   autoFocus
-                  value={pauseReason} 
-                  onChange={e => setPauseReason(e.target.value)}
+                  value={pauseReasonId}
+                  onChange={e => {
+                    setPauseReasonId(e.target.value);
+                    const selected = pauseReasonsList.find(r => r.id === e.target.value);
+                    if (selected) {
+                      setPauseReason(selected.name);
+                    } else {
+                      setPauseReason('');
+                    }
+                  }}
                   style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '16px' }}
-                  placeholder="Причина..."
-                />
+                >
+                  <option value="">Оберіть причину...</option>
+                  {pauseReasonsList.map(r => (
+                    <option key={r.id} value={r.id}>{r.name}</option>
+                  ))}
+                </select>
                 <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', color: 'var(--text-secondary)' }}>Вкажіть дату закінчення паузи (наступний продзвон):</label>
                 <input 
                   type="date"
@@ -542,7 +656,15 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
                   onChange={e => setPauseEndDate(e.target.value)}
                   style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '20px' }}
                 />
-                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', color: 'var(--text-secondary)' }}>Дата та час наступного дзвінка:</label>
+                
+                <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', color: 'var(--text-secondary)' }}>Дата попереднього планування (необов'язково):</label>
+                <input 
+                  type="date"
+                  value={pausePreScheduleDate} 
+                  onChange={e => setPausePreScheduleDate(e.target.value)}
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)', marginBottom: '20px' }}
+                />
+                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', color: 'var(--text-secondary)' }}>Дата та час додаткового дзвінка (необов'язково):</label>
                 <input 
                   type="datetime-local"
                   value={pauseActivityDate} 
@@ -559,8 +681,8 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
                 />
 
                 <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '10px' }}>
-                  <button onClick={() => { setShowPauseConfirm(false); setPauseReason(''); setPauseEndDate(''); setPauseActivityDate(''); setPauseActivityComment('Дзвінок після паузи'); }} style={{ padding: '8px 20px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 600 }}>Скасувати</button>
-                  <button disabled={!pauseReason.trim() || !pauseEndDate} onClick={() => { setShowPauseConfirm(false); handlePause(); }} style={{ padding: '8px 20px', background: 'var(--accent-warning)', color: 'white', border: 'none', borderRadius: '6px', cursor: (!pauseReason.trim() || !pauseEndDate) ? 'not-allowed' : 'pointer', opacity: (!pauseReason.trim() || !pauseEndDate) ? 0.5 : 1, fontWeight: 600 }}>Підтвердити</button>
+                  <button onClick={() => { setShowPauseConfirm(false); setPauseReasonId(''); setPauseReason(''); setPauseEndDate(''); setPauseActivityDate(''); setPauseActivityComment('Дзвінок після паузи'); setPausePreScheduleDate(''); }} style={{ padding: '8px 20px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)', fontWeight: 600 }}>Скасувати</button>
+                  <button disabled={!pauseReasonId || !pauseEndDate} onClick={() => { setShowPauseConfirm(false); handlePause(); }} style={{ padding: '8px 20px', background: 'var(--accent-color)', color: 'white', border: 'none', borderRadius: '6px', cursor: (!pauseReasonId || !pauseEndDate) ? 'not-allowed' : 'pointer', opacity: (!pauseReasonId || !pauseEndDate) ? 0.5 : 1, fontWeight: 600 }}>Підтвердити</button>
                 </div>
               </div>
             </div>
@@ -751,17 +873,7 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
             </div>
           </div>
 
-          {activeMeasTask && (
-            <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
-              <h3 style={{ margin: '0 0 12px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Поточний замір</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '8px', fontSize: '14px' }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Точка виїзду:</span>
-                <span style={{ color: 'var(--text-primary)' }}>{departurePoint || '—'}</span>
-                <span style={{ color: 'var(--text-secondary)' }}>Замірник:</span>
-                <span style={{ color: 'var(--text-primary)' }}>{activeMeasTask.profiles?.full_name || 'Не призначено'}</span>
-              </div>
-            </div>
-          )}
+
         </div>
       )}
 
@@ -853,50 +965,74 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
         <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
           <h3 style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Історія статусів</h3>
           
-          {history.length === 0 ? (
+          {groupedHistory.length === 0 ? (
             <div style={{ color: 'var(--text-tertiary)', fontSize: '13px' }}>Історія порожня</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
               <div style={{ position: 'absolute', left: '15px', top: '10px', bottom: '10px', width: '2px', background: 'var(--border-color)', zIndex: 0 }} />
               
-              {history.map((h, i) => {
-                const isLatest = i === 0;
+              {groupedHistory.map((group, groupIndex) => {
+                const isExpanded = expandedHistoryGroups[group.id] || groupIndex === 0;
+                const stageColor = STAGE_COLORS[group.stage] || STAGE_COLORS['UNKNOWN'];
+                
                 return (
-                  <div key={h.id} style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ 
-                      width: '32px', height: '32px', borderRadius: '50%', 
-                      background: isLatest ? 'var(--accent-color)' : 'var(--bg-input)',
-                      border: `2px solid ${isLatest ? 'var(--accent-color)' : 'var(--border-color)'}`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
-                    }}>
-                      {isLatest ? <Clock size={14} color="white" /> : <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--text-tertiary)' }} />}
-                    </div>
-                    
-                    <div style={{ flex: 1, padding: '12px', background: 'var(--bg-input)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          {h.from_status && (
-                            <>
-                              <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{STATUS_LABELS[h.from_status] || h.from_status}</span>
-                              <ArrowRight size={12} color="var(--text-tertiary)" />
-                            </>
-                          )}
-                          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
-                            {STATUS_LABELS[h.to_status] || h.to_status}
-                          </span>
-                        </div>
-                        <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
-                          {format(new Date(h.changed_at), 'd MMM yyyy, HH:mm', { locale: uk })}
+                  <div key={group.id} style={{ display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative', zIndex: 1 }}>
+                    {/* Header: Stage Circle + Name */}
+                    <div 
+                      onClick={() => toggleHistoryGroup(group.id)}
+                      style={{ display: 'flex', gap: '16px', alignItems: 'center', cursor: 'pointer' }}
+                    >
+                      <div style={{ 
+                        width: '32px', height: '32px', borderRadius: '50%', 
+                        background: stageColor,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                        color: 'white'
+                      }}>
+                        {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </div>
+                      <div style={{ fontWeight: 600, fontSize: '14px', color: 'var(--text-primary)' }}>
+                        {MACRO_STAGE_LABELS[group.stage] || group.stage}
+                        <span style={{ marginLeft: '8px', fontSize: '12px', color: 'var(--text-tertiary)', fontWeight: 'normal' }}>
+                          ({group.items.length} {group.items.length === 1 ? 'дія' : (group.items.length >= 2 && group.items.length <= 4 ? 'дії' : 'дій')})
                         </span>
                       </div>
-                      
-                      {(h.reason || h.source) && (
-                        <div style={{ display: 'flex', gap: '12px', marginTop: '6px', fontSize: '12px' }}>
-                          {h.source && <span style={{ color: 'var(--text-tertiary)' }}>Джерело: <span style={{ color: 'var(--text-secondary)' }}>{h.source}</span></span>}
-                          {h.reason && <span style={{ color: 'var(--danger-color)' }}>Причина: {h.reason}</span>}
-                        </div>
-                      )}
                     </div>
+
+                    {/* Expandable Items */}
+                    {isExpanded && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '48px' }}>
+                        {group.items.map((h: any, i: number) => {
+                          const isLatestInGroup = groupIndex === 0 && i === 0;
+                          return (
+                            <div key={h.id} style={{ padding: '12px', background: 'var(--bg-input)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  {h.from_status && (
+                                    <>
+                                      <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{STATUS_LABELS[h.from_status] || h.from_status}</span>
+                                      <ArrowRight size={12} color="var(--text-tertiary)" />
+                                    </>
+                                  )}
+                                  <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                                    {STATUS_LABELS[h.to_status] || h.to_status}
+                                  </span>
+                                </div>
+                                <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                                  {format(new Date(h.changed_at), 'd MMM yyyy, HH:mm', { locale: uk })}
+                                </span>
+                              </div>
+                              
+                              {(h.reason || h.source) && (
+                                <div style={{ display: 'flex', gap: '12px', marginTop: '6px', fontSize: '12px' }}>
+                                  {h.source && <span style={{ color: 'var(--text-tertiary)' }}>Джерело: <span style={{ color: 'var(--text-secondary)' }}>{h.source}</span></span>}
+                                  {h.reason && <span style={{ color: 'var(--danger-color)' }}>Причина: {h.reason}</span>}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -904,6 +1040,120 @@ export function OrderCard({ orderId, onStatusChanged, profile }: OrderCardProps)
           )}
         </div>
       )}
+
+      {activeTab === 'Логістика' && (() => {
+        let estimatedDuration = 120;
+        if (order?.measurement_duration_mins) {
+          estimatedDuration = order.measurement_duration_mins;
+        } else if (measurementDurationRules.length > 0 && order?.order_specifications?.[0]?.area_sqm) {
+          const area = order.order_specifications[0].area_sqm;
+          const matchedRule = measurementDurationRules.find(r => area >= r.min_sqm && area <= r.max_sqm);
+          if (matchedRule && !matchedRule.is_custom && matchedRule.duration_mins > 0) {
+            estimatedDuration = matchedRule.duration_mins;
+          }
+        }
+
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ padding: '16px', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '12px', fontSize: '14px', alignItems: 'center' }}>
+              <span style={{ color: 'var(--text-secondary)' }}>Необхідний час на замір:</span>
+              <span style={{ color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {isEditingDuration ? (
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input 
+                      type="number" 
+                      value={editDuration}
+                      onChange={e => setEditDuration(parseInt(e.target.value) || 0)}
+                      style={{ padding: '4px', width: '60px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-input)', color: 'var(--text-primary)' }}
+                    />
+                    <span>хв</span>
+                    <button onClick={handleSaveDuration} style={{ background: 'var(--accent-color)', color: 'white', border: 'none', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}><Check size={14} /></button>
+                    <button onClick={() => setIsEditingDuration(false)} style={{ background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border-color)', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}><X size={14} /></button>
+                  </div>
+                ) : (
+                  <>
+                    <span style={{ fontWeight: 500 }}>{estimatedDuration} хв</span> 
+                    <span style={{ color: 'var(--text-tertiary)', fontSize: '12px' }}>({Math.floor(estimatedDuration / 60)} год {estimatedDuration % 60 > 0 ? `${estimatedDuration % 60} хв` : ''})</span>
+                    <button 
+                      onClick={() => {
+                        setEditDuration(estimatedDuration);
+                        setIsEditingDuration(true);
+                      }} 
+                      style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0 4px' }}
+                      title="Редагувати необхідний час"
+                    >
+                      <Edit2 size={14} />
+                    </button>
+                  </>
+                )}
+              </span>
+            </div>
+
+            <div style={{ padding: 'var(--space-16)', background: 'var(--bg-panel)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '14px', color: 'var(--text-secondary)' }}>Логістичні дані заміру</h3>
+          {activeMeasTask ? (
+            <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '12px', fontSize: '14px' }}>
+              <span style={{ color: 'var(--text-secondary)' }}>Замірник:</span>
+              <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{activeMeasTask.profiles?.full_name || 'Не призначено'}</span>
+              
+              <span style={{ color: 'var(--text-secondary)' }}>Дата заміру:</span>
+              <span style={{ color: 'var(--text-primary)' }}>{activeMeasTask.scheduled_date ? format(new Date(activeMeasTask.scheduled_date), 'dd.MM.yyyy') : '—'}</span>
+              
+              <span style={{ color: 'var(--text-secondary)' }}>Час:</span>
+              <span style={{ color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {isEditingTime ? (
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input 
+                      type="time" 
+                      value={editStartTime}
+                      onChange={e => setEditStartTime(e.target.value)}
+                      style={{ padding: '4px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-input)', color: 'var(--text-primary)' }}
+                    />
+                    <span>-</span>
+                    <input 
+                      type="time" 
+                      value={editEndTime}
+                      onChange={e => setEditEndTime(e.target.value)}
+                      style={{ padding: '4px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-input)', color: 'var(--text-primary)' }}
+                    />
+                    <button onClick={() => handleSaveTime(activeMeasTask.id)} style={{ background: 'var(--accent-color)', color: 'white', border: 'none', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}><Check size={14} /></button>
+                    <button onClick={() => setIsEditingTime(false)} style={{ background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border-color)', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}><X size={14} /></button>
+                  </div>
+                ) : (
+                  <>
+                    {activeMeasTask.start_time ? activeMeasTask.start_time.slice(0, 5) : '—'} 
+                    {' - '} 
+                    {activeMeasTask.end_time ? activeMeasTask.end_time.slice(0, 5) : '—'}
+                    <button 
+                      onClick={() => {
+                        setEditStartTime(activeMeasTask.start_time?.slice(0, 5) || '10:00');
+                        setEditEndTime(activeMeasTask.end_time?.slice(0, 5) || '12:00');
+                        setIsEditingTime(true);
+                      }} 
+                      style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '0 4px' }}
+                      title="Редагувати час"
+                    >
+                      <Edit2 size={14} />
+                    </button>
+                  </>
+                )}
+              </span>
+
+              <span style={{ color: 'var(--text-secondary)' }}>Точка виїзду:</span>
+              <span style={{ color: 'var(--text-primary)' }}>{departurePoint || '—'}</span>
+              
+              <span style={{ color: 'var(--text-secondary)' }}>Час в дорозі:</span>
+              <span style={{ color: 'var(--text-primary)' }}>{activeMeasTask.estimated_travel_time_mins ? `${activeMeasTask.estimated_travel_time_mins} хв` : '—'}</span>
+            </div>
+          ) : (
+            <div style={{ padding: '16px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+              Замір ще не заплановано
+            </div>
+          )}
+            </div>
+          </div>
+        );
+      })()}
 
       {selectedTaskDetails && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }} onClick={() => setSelectedTaskDetails(null)}>

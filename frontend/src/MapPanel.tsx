@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { isPaused } from './utils/orderStages';
+import { isPaused, STATUS_LABELS, ORDER_TYPES } from './utils/orderStages';
 import Map, { Marker, NavigationControl, Source, Layer } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { supabase } from './supabase';
@@ -127,10 +127,10 @@ export function MapPanel({ selectedOrderId, onSelectOrder, refreshTrigger, selec
         is_incomplete,
         order_addresses (lat, lng, city, street, building),
         order_contacts (full_name, phone),
-        measurement_tasks (measurer_id, scheduled_date, start_time, end_time, outcome, profiles ( color )),
+        measurement_tasks (measurer_id, scheduled_date, start_time, end_time, outcome, profiles ( color, full_name )),
         branches ( regions (name) )
       `)
-      .in('status', ['MEASUREMENT_SCHEDULING', 'MEASUREMENT_SCHEDULED', 'PAUSED'])
+      .in('status', ['MEASUREMENT_SCHEDULING', 'MEASUREMENT_PRE_SCHEDULED', 'MEASUREMENT_SCHEDULED', 'PAUSED'])
       .eq('is_hidden', false);
       
     if (!error && data) {
@@ -205,7 +205,7 @@ export function MapPanel({ selectedOrderId, onSelectOrder, refreshTrigger, selec
           const dateStr = selectedMapDate.toISOString().split('T')[0];
           if (!o.measurement_tasks || !o.measurement_tasks.some((t: any) => t.scheduled_date === dateStr)) return false;
         } else if (filterStatus === 'PRELIMINARY') {
-          if (o.status !== 'MEASUREMENT_SCHEDULING') return false;
+          if (o.status !== 'MEASUREMENT_PRE_SCHEDULED') return false;
         } else if (filterStatus === 'SCHEDULED') {
           if (o.status !== 'MEASUREMENT_SCHEDULED') return false;
         } else if (filterStatus === 'PAUSED') {
@@ -357,7 +357,7 @@ export function MapPanel({ selectedOrderId, onSelectOrder, refreshTrigger, selec
     
     if (isPaused(order.status)) return 'var(--danger-color, #ef4444)';
     if (order.status === 'MEASUREMENT_SCHEDULED') return '#8b5cf6'; // purple
-    if (order.status === 'MEASUREMENT_SCHEDULING' && hasTasks) return '#eab308'; // yellow (Попередньо заплановано)
+    if (order.status === 'MEASUREMENT_PRE_SCHEDULED') return '#eab308'; // yellow (Попередньо заплановано)
     
     // Default (Нове)
     return 'var(--accent-color, #3b82f6)';
@@ -384,7 +384,11 @@ export function MapPanel({ selectedOrderId, onSelectOrder, refreshTrigger, selec
         <NavigationControl position="top-right" />
         {filteredOrders.map(order => {
           const isSelected = order.id === selectedOrderId;
-          const tooltipText = `Замовлення: ${order.external_id || order.order_number || 'Без номера'}\nСтатус: ${order.status || 'Невідомо'}\nАдреса: ${order.addressStr || 'Не вказана'}\nТип: ${order.order_type || 'Не вказано'}`;
+          const tooltipText = `Замовлення: ${order.external_id || order.order_number || 'Без номера'}
+Статус: ${STATUS_LABELS[order.status] || order.status || 'Невідомо'}
+Адреса: ${order.addressStr || 'Не вказана'}
+Тип: ${ORDER_TYPES[order.order_type] || order.order_type || 'Не вказано'}
+Замірник: ${order.measurement_tasks?.[0]?.profiles?.full_name || 'Не призначено'}`;
           return (
             <Marker 
               key={order.id} 

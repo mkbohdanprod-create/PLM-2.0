@@ -14,15 +14,35 @@
 - `parent_order_id` (uuid) - Прив'язка дочірньої рекламації до батьківського замовлення
 - `resume_date` (date) - Дата виходу з паузи
 - `is_incomplete` (boolean)
-- Дати: `document_date`, `base_readiness_date`, `payment_date`, `calc_readiness_date`
+- `measurement_duration_mins` (integer) - Необхідний час на замір
+- Дати: `document_date`, `base_readiness_date`, `payment_date`, `calc_readiness_date`, `planned_call_date`
 
 ### `profiles`
 - `id` (uuid) - FK на `auth.users`
 - `full_name` (text), `role_code` (text), `is_active` (boolean)
+- `region_id` (uuid) - FK на `regions`. Прив'язка співробітника до регіону (замірники, монтажники).
 - `allowed_view_regions` (uuid[]), `allowed_action_regions` (uuid[])
+
+### `order_activities` (Комунікації)
+- `id` (uuid), `order_id` (uuid)
+- `macro_stage` (text) - Прив'язка активності до конкретного етапу (напр. 'MEASUREMENT_SCHEDULING')
+- `created_by` (uuid) - FK на `public.profiles(id)`
+- `completed_by` (uuid) - FK на `public.profiles(id)`
+- Зберігає як ручні дзвінки, так і системні нотатки при паузах чи зміні статусів.
 
 ### `engineering_tasks`, `measurement_tasks`, `delivery_tasks`
 Зберігають стан виконання відповідних виїзних чи внутрішніх завдань. Мають колонку `status` або `outcome`.
+
+### `settings`
+- `key` (text) - Унікальний ідентифікатор налаштування (напр. `measurement_duration_rules`).
+- `value` (jsonb) - Значення налаштування у форматі JSON.
+- Використовується для зберігання формул розрахунку трудозатрат та інших глобальних конфігурацій.
+
+### Довідники (Dictionaries)
+- **`regions`**: Регіони (напр. Київ, Львів). Має `id`, `name`.
+- **`branches`**: Філії/Бази в межах регіонів. Має `id`, `name`, `region_id`, `coordinates` (точка старту).
+- **`pause_reasons`**: Причини паузи (напр. "Клієнт у від'їзді"). Має `id`, `name`, `is_system`, `is_active`.
+- **`roles`**: Довідник ролей. Має `code` (PK), `name`, `permissions` (JSONB).
 
 ### `order_status_history`
 - Фіксує всі переходи статусів (через RPC та тригери).

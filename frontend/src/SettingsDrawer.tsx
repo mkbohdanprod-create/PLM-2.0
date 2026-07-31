@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Settings, X, Clock, Layout, Sliders, AlertTriangle, Building, Globe, LayoutTemplate, Plug, MoreHorizontal, ChevronRight, ChevronDown, Users } from 'lucide-react';
+import { Settings, X, Clock, Layout, Sliders, AlertTriangle, Building, Globe, LayoutTemplate, Plug, MoreHorizontal, ChevronRight, ChevronDown, Users, MapPin, PauseCircle } from 'lucide-react';
 import { supabase } from './supabase';
 
 import { GlobalRegionsSettings } from './components/settings/GlobalRegionsSettings';
 import { EmployeesDirectory } from './EmployeesDirectory';
 import { RolesSettings } from './RolesSettings';
+import { PauseReasonsSettings } from './PauseReasonsSettings';
+import { MeasurementDurationSettings } from './MeasurementDurationSettings';
 
 interface SettingsDrawerProps {
   onClose: () => void;
@@ -40,8 +42,10 @@ export function SettingsDrawer({ onClose, onSave, plannerSettings }: SettingsDra
   const CATEGORIES = [
     { id: 'branches', label: 'Налаштування відділів', icon: Building },
     { id: 'global', label: 'Глобальні налаштування', icon: Globe, isGroup: true, items: [
-      { id: 'global-regions', label: 'Регіони' },
-      { id: 'global-branches', label: 'Філії' }
+      { id: 'global-regions', label: 'Регіони', icon: MapPin },
+      { id: 'global-branches', label: 'Загальні бази/філії' },
+      { id: 'pause-reasons', label: 'Причини паузи' },
+      { id: 'measurement-duration', label: 'Трудозатрати замір' },
     ]},
     { id: 'users-group', label: 'Співробітники та Ролі', icon: Users, isGroup: true, items: [
       { id: 'users-employees', label: 'Співробітники' },
@@ -69,6 +73,10 @@ export function SettingsDrawer({ onClose, onSave, plannerSettings }: SettingsDra
         return <GlobalRegionsSettings activeTab="regions" />;
       case 'global-branches':
         return <GlobalRegionsSettings activeTab="branches" />;
+      case 'pause-reasons':
+        return <PauseReasonsSettings />;
+      case 'measurement-duration':
+        return <MeasurementDurationSettings />;
       case 'branches':
         return (
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

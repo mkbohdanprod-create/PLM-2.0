@@ -1,0 +1,2 @@
+ALTER TABLE public.worker_schedules DROP CONSTRAINT IF EXISTS worker_schedules_status_check;
+ALTER TABLE public.worker_schedules ADD CONSTRAINT worker_schedules_status_check CHECK (status IN ('WORKING', 'SICK', 'VACATION', 'DAY_OFF', 'DAY_OFF_OWN'));

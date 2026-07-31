@@ -521,10 +521,7 @@ function DraggableOrder({ order: o, onSelectOrder, isSelected, activeModule }: {
           <MapPin size={12} />
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{addressStr}</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontSize: '12px' }}>
-          <Building size={12} />
-          <span>{branchName}</span>
-        </div>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontSize: '12px', marginTop: '4px' }}>
           {activeModule === 'Планування замірів' && o.planned_call_date ? (
             <span style={{ 
